@@ -1,0 +1,2099 @@
+Arachni - Web Application Security Scanner Framework v1.2.1
+   Author: Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+
+           (With the support of the community and the Arachni Team.)
+
+   Website:       http://arachni-scanner.com
+   Documentation: http://arachni-scanner.com/wiki
+
+
+
+
+================================================================================
+
+
+[+] Web Application Security Report - Arachni Framework
+
+[~] Report generated on: 2016-12-24 10:03:47 +0900
+[~] Report false positives at: http://github.com/Arachni/arachni/issues
+
+[+] System settings:
+[~] ---------------
+[~] Version:           1.2.1
+[~] Audit started on:  2016-12-23 22:41:08 +0900
+[~] Audit finished on: 2016-12-24 10:01:45 +0900
+[~] Runtime:           11:20:37
+
+[~] URL:        http://testasp.vulnweb.com/
+[~] User agent: Arachni/v1.2.1
+
+[*] Audited elements: 
+[~] * Links
+[~] * Forms
+[~] * Cookies
+[~] * XMLs
+[~] * JSONs
+
+[*] Checks: common_files, insecure_cross_domain_policy_headers, backup_directories, backdoors, insecure_cross_domain_policy_access, directory_listing, htaccess_limit, localstart_asp, webdav, insecure_client_access_policy, captcha, x_frame_options, emails, form_upload, cookie_set_for_parent_domain, password_autocomplete, html_objects, insecure_cors_policy, ssn, insecure_cookies, mixed_resource, credit_card, unencrypted_password_forms, http_only_cookies, private_ip, hsts, cvs_svn_users, backup_files, interesting_responses, common_admin_interfaces, allowed_methods, xst, origin_spoof_access_restriction_bypass, http_put, common_directories, no_sql_injection_differential, xss_path, unvalidated_redirect, xss_event, sql_injection, os_cmd_injection_timing, sql_injection_timing, source_code_disclosure, xss_script_context, file_inclusion, sql_injection_differential, response_splitting, session_fixation, xpath_injection, csrf, xss_dom_script_context, rfi, xss, xss_tag, xss_dom_inputs, ldap_injection, xxe, xss_dom, trainer, code_injection_timing, no_sql_injection, code_injection, code_injection_php_input_wrapper, unvalidated_redirect_dom, os_cmd_injection, path_traversal
+
+[~] ===========================
+
+[+] 34 issues were detected.
+
+[+] [1] Cross-Site Request Forgery
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2143113859
+[~] Severity:   High
+
+[~] URL:        http://testasp.vulnweb.com/showforum.asp?id=1
+[~] Element:    form
+[~] All inputs: tfText, tfSubject
+
+[~] Tags: csrf, rdiff, form, token
+
+[~] Description: 
+[~] 
+In the majority of today's web applications, clients are required to submit forms
+which can perform sensitive operations.
+
+An example of such a form being used would be when an administrator wishes to
+create a new user for the application.
+
+In the simplest version of the form, the administrator would fill-in:
+
+* Name
+* Password
+* Role (level of access)
+
+Continuing with this example, Cross Site Request Forgery (CSRF) would occur when
+the administrator is tricked into clicking on a link, which if logged into the
+application, would automatically submit the form without any further interaction.
+
+Cyber-criminals will look for sites where sensitive functions are performed in
+this manner and then craft malicious requests that will be used against clients
+via a social engineering attack.
+
+There are 3 things that are required for a CSRF attack to occur:
+
+1. The form must perform some sort of sensitive action.
+2. The victim (the administrator the example above) must have an active session.
+3. Most importantly, all parameter values must be **known** or **guessable**.
+
+Arachni discovered that all parameters within the form were known or predictable
+and therefore the form could be vulnerable to CSRF.
+
+_Manual verification may be required to check whether the submission will then
+perform a sensitive action, such as reset a password, modify user profiles, post
+content on a forum, etc._
+
+
+[~] http://cwe.mitre.org/data/definitions/352.html
+[~] References:
+[~]   Wikipedia - http://en.wikipedia.org/wiki/Cross-site_request_forgery
+[~]   OWASP - https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)
+[~]   CGI Security - http://www.cgisecurity.com/csrf-faq.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "<form name=\"frmPostMessage\" method=\"post\" enctype=\"application/x-www-form-urlencoded\">\r\n        <table align=\"center\" width=\"500px\" cellpadding=\"5\" cellspacing=\"0\" class=\"FramedForm\">\r\n          <tr>\r\n            <td>Thread title<br>\r\n              <center>\r\n                <input name=\"tfSubject\" type=\"text\" class=\"postit\" id=\"tfSubject\">\r\n              </center>\n</td>\r\n          </tr>\r\n          <tr>\r\n            <td>Thread message<br>\r\n              <center>\r\n                <textarea name=\"tfText\" class=\"postit\" id=\"tfText\"></textarea>\r\n              </center>\n</td>\r\n          </tr>\r\n          <tr>\r\n            <td align=\"right\"><input type=\"submit\" value=\"Post it\"></td>\r\n          </tr>\r\n        </table>\r\n      </form>"
+
+[~] Referring page: http://testasp.vulnweb.com/showforum.asp?id=1
+
+[~] Affected page:  http://testasp.vulnweb.com/showforum.asp?id=1
+[~] HTTP request
+GET /showforum.asp?id=1 HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=CHAPBCICAFCOGFHMHCPCLIEF_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+
+
+
+[+] [2] Cross-Site Request Forgery
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     151735954
+[~] Severity:   High
+
+[~] URL:        http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?
+[~] Element:    form
+[~] All inputs: tfUName, tfRName, tfEmail, tfUPass
+
+[~] Tags: csrf, rdiff, form, token
+
+[~] Description: 
+[~] 
+In the majority of today's web applications, clients are required to submit forms
+which can perform sensitive operations.
+
+An example of such a form being used would be when an administrator wishes to
+create a new user for the application.
+
+In the simplest version of the form, the administrator would fill-in:
+
+* Name
+* Password
+* Role (level of access)
+
+Continuing with this example, Cross Site Request Forgery (CSRF) would occur when
+the administrator is tricked into clicking on a link, which if logged into the
+application, would automatically submit the form without any further interaction.
+
+Cyber-criminals will look for sites where sensitive functions are performed in
+this manner and then craft malicious requests that will be used against clients
+via a social engineering attack.
+
+There are 3 things that are required for a CSRF attack to occur:
+
+1. The form must perform some sort of sensitive action.
+2. The victim (the administrator the example above) must have an active session.
+3. Most importantly, all parameter values must be **known** or **guessable**.
+
+Arachni discovered that all parameters within the form were known or predictable
+and therefore the form could be vulnerable to CSRF.
+
+_Manual verification may be required to check whether the submission will then
+perform a sensitive action, such as reset a password, modify user profiles, post
+content on a forum, etc._
+
+
+[~] http://cwe.mitre.org/data/definitions/352.html
+[~] References:
+[~]   Wikipedia - http://en.wikipedia.org/wiki/Cross-site_request_forgery
+[~]   OWASP - https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)
+[~]   CGI Security - http://www.cgisecurity.com/csrf-faq.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "<form action=\"\" method=\"post\" enctype=\"application/x-www-form-urlencoded\" name=\"frmRegister\">\r\n        <table width=\"350\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"5\" class=\"FramedForm\">\r\n            <tr>\r\n              <td>Username:</td>\r\n              <td align=\"right\"><input name=\"tfUName\" type=\"text\" id=\"tfUName\" class=\"Login\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>Real name:</td>\r\n              <td align=\"right\"><input name=\"tfRName\" type=\"text\" id=\"tfRName\" class=\"Login\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>Email:</td>\r\n              <td align=\"right\"><input name=\"tfEmail\" type=\"text\" id=\"tfEmail\" class=\"Login\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>Password:</td>\r\n              <td align=\"right\"><input name=\"tfUPass\" type=\"password\" id=\"tfUPass\" class=\"Login\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>\u00A0</td>\r\n              <td align=\"right\"><input type=\"submit\" value=\"Register me\"></td>\r\n            </tr>\r\n        </table>\r\n      </form>"
+
+[~] Referring page: http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?
+
+[~] Affected page:  http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?
+[~] HTTP request
+GET /Register.asp?RetURL=%2FDefault.asp%3F HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=CHAPBCICAFCOGFHMHCPCLIEF
+
+
+
+[+] [3] Cross-Site Request Forgery
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2618527900
+[~] Severity:   High
+
+[~] URL:        http://testasp.vulnweb.com/Login.asp?RetURL=/Default.asp?
+[~] Element:    form
+[~] All inputs: tfUName, tfUPass
+
+[~] Tags: csrf, rdiff, form, token
+
+[~] Description: 
+[~] 
+In the majority of today's web applications, clients are required to submit forms
+which can perform sensitive operations.
+
+An example of such a form being used would be when an administrator wishes to
+create a new user for the application.
+
+In the simplest version of the form, the administrator would fill-in:
+
+* Name
+* Password
+* Role (level of access)
+
+Continuing with this example, Cross Site Request Forgery (CSRF) would occur when
+the administrator is tricked into clicking on a link, which if logged into the
+application, would automatically submit the form without any further interaction.
+
+Cyber-criminals will look for sites where sensitive functions are performed in
+this manner and then craft malicious requests that will be used against clients
+via a social engineering attack.
+
+There are 3 things that are required for a CSRF attack to occur:
+
+1. The form must perform some sort of sensitive action.
+2. The victim (the administrator the example above) must have an active session.
+3. Most importantly, all parameter values must be **known** or **guessable**.
+
+Arachni discovered that all parameters within the form were known or predictable
+and therefore the form could be vulnerable to CSRF.
+
+_Manual verification may be required to check whether the submission will then
+perform a sensitive action, such as reset a password, modify user profiles, post
+content on a forum, etc._
+
+
+[~] http://cwe.mitre.org/data/definitions/352.html
+[~] References:
+[~]   Wikipedia - http://en.wikipedia.org/wiki/Cross-site_request_forgery
+[~]   OWASP - https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)
+[~]   CGI Security - http://www.cgisecurity.com/csrf-faq.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "<form action=\"\" method=\"POST\">\r\n\t\t<table width=\"350\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"5\" class=\"FramedForm\">\r\n            <tr>\r\n              <td>Username:</td>\r\n              <td align=\"right\"><input name=\"tfUName\" type=\"text\" class=\"Login\" id=\"tfUName\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>Password:</td>\r\n              <td align=\"right\"><input name=\"tfUPass\" type=\"password\" class=\"Login\" id=\"tfUPass\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>\u00A0</td>\r\n              <td align=\"right\"><input type=\"submit\" value=\"Login\"></td>\r\n            </tr>\r\n          </table>\r\n\t  </form>"
+
+[~] Referring page: http://testasp.vulnweb.com/Login.asp?RetURL=/Default.asp?
+
+[~] Affected page:  http://testasp.vulnweb.com/Login.asp?RetURL=/Default.asp?
+[~] HTTP request
+GET /Login.asp?RetURL=%2FDefault.asp%3F HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=CHAPBCICAFCOGFHMHCPCLIEF
+
+
+
+[+] [4] SQL Injection
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1496263634
+[~] Severity:   High
+
+[~] URL:        http://testasp.vulnweb.com/Search.asp
+[~] Element:    form
+[~] Method:     GET
+[~] Input name: tfSearch
+[~] All inputs: tfSearch
+
+[~] Tags: sql, injection, regexp, database, error
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to cause the server to respond to
+the request with a database related error.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   UnixWiz - http://unixwiz.net/techtips/sql-injection.html
+[~]   Wikipedia - http://en.wikipedia.org/wiki/SQL_injection
+[~]   SecuriTeam - http://www.securiteam.com/securityreviews/5DP0N1P76E.html
+[~]   OWASP - https://www.owasp.org/index.php/SQL_Injection
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "\"'`--"
+[~] Injected:  "1\"'`--"
+[~] Signature: Incorrect syntax near
+[~] Proof:     "Incorrect syntax near"
+
+[~] Referring page: http://testasp.vulnweb.com/Search.asp
+
+[~] Affected page:  http://testasp.vulnweb.com/Search.asp?tfSearch=1%22%27%60--
+[~] HTTP request
+GET /Search.asp?tfSearch=1%22%27%60-- HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=CHAPBCICAFCOGFHMHCPCLIEF
+
+
+
+[+] [5] Cross-Site Scripting (XSS)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1231176643
+[~] Severity:   High
+
+[~] URL:        http://testasp.vulnweb.com/Search.asp
+[~] Element:    form
+[~] Method:     GET
+[~] Input name: tfSearch
+[~] All inputs: tfSearch
+
+[~] Tags: xss, regexp, injection, script
+
+[~] Description: 
+[~] 
+Client-side scripts are used extensively by modern web applications.
+They perform from simple functions (such as the formatting of text) up to full
+manipulation of client-side data and Operating System interaction.
+
+Cross Site Scripting (XSS) allows clients to inject scripts into a request and
+have the server return the script to the client in the response. This occurs
+because the application is taking untrusted data (in this example, from the client)
+and reusing it without performing any validation or sanitisation.
+
+If the injected script is returned immediately this is known as reflected XSS.
+If the injected script is stored by the server and returned to any client visiting
+the affected page, then this is known as persistent XSS (also stored XSS).
+
+Arachni has discovered that it is possible to insert script content directly into
+HTML element content.
+
+
+[~] http://cwe.mitre.org/data/definitions/79.html
+[~] References:
+[~]   ha.ckers - http://ha.ckers.org/xss.html
+[~]   Secunia - http://secunia.com/advisories/9716/
+[~]   WASC - http://projects.webappsec.org/w/page/13246920/Cross%20Site%20Scripting
+[~]   OWASP - https://www.owasp.org/index.php/XSS_%28Cross_Site_Scripting%29_Prevention_Cheat_Sheet
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "<some_dangerous_input_700cabd261df516b300d17f7145b8ecd/>"
+[~] Injected:  "1<some_dangerous_input_700cabd261df516b300d17f7145b8ecd/>"
+[~] Proof:     "<some_dangerous_input_700cabd261df516b300d17f7145b8ecd/>"
+
+[~] Referring page: http://testasp.vulnweb.com/Search.asp
+
+[~] Affected page:  http://testasp.vulnweb.com/Search.asp?tfSearch=1%3Csome_dangerous_input_700cabd261df516b300d17f7145b8ecd/%3E
+[~] HTTP request
+GET /Search.asp?tfSearch=1%3Csome_dangerous_input_700cabd261df516b300d17f7145b8ecd%2F%3E HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=CHAPBCICAFCOGFHMHCPCLIEF
+
+
+
+[+] [6] SQL Injection
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     215840764
+[~] Severity:   High
+
+[~] URL:        http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: tfRName
+[~] All inputs: tfUName, tfRName, tfEmail, tfUPass
+
+[~] Tags: sql, injection, regexp, database, error
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to cause the server to respond to
+the request with a database related error.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   UnixWiz - http://unixwiz.net/techtips/sql-injection.html
+[~]   Wikipedia - http://en.wikipedia.org/wiki/SQL_injection
+[~]   SecuriTeam - http://www.securiteam.com/securityreviews/5DP0N1P76E.html
+[~]   OWASP - https://www.owasp.org/index.php/SQL_Injection
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "\"'`--"
+[~] Injected:  "arachni_name\"'`--"
+[~] Signature: Incorrect syntax near
+[~] Proof:     "Incorrect syntax near"
+
+[~] Referring page: http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd%00
+
+[~] Affected page:  http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] HTTP request
+POST /Register.asp?RetURL=%2FDefault.asp%3F_arachni_trainer_700cabd261df516b300d17f7145b8ecd HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ
+Content-Length: 112
+Content-Type: application/x-www-form-urlencoded
+
+tfUName=arachni_name&tfRName=arachni_name%22%27%60--&tfEmail=arachni%40email.gr&tfUPass=5543%21%25arachni_secret
+
+[+] [7] SQL Injection
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1153720390
+[~] Severity:   High
+
+[~] URL:        http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: tfUPass
+[~] All inputs: tfUName, tfRName, tfEmail, tfUPass
+
+[~] Tags: sql, injection, regexp, database, error
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to cause the server to respond to
+the request with a database related error.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   UnixWiz - http://unixwiz.net/techtips/sql-injection.html
+[~]   Wikipedia - http://en.wikipedia.org/wiki/SQL_injection
+[~]   SecuriTeam - http://www.securiteam.com/securityreviews/5DP0N1P76E.html
+[~]   OWASP - https://www.owasp.org/index.php/SQL_Injection
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "\"'`--"
+[~] Injected:  "5543!%arachni_secret\"'`--"
+[~] Signature: Incorrect syntax near
+[~] Proof:     "Incorrect syntax near"
+
+[~] Referring page: http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd%00
+
+[~] Affected page:  http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] HTTP request
+POST /Register.asp?RetURL=%2FDefault.asp%3F_arachni_trainer_700cabd261df516b300d17f7145b8ecd HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ
+Content-Length: 112
+Content-Type: application/x-www-form-urlencoded
+
+tfUName=arachni_name&tfRName=arachni_name&tfEmail=arachni%40email.gr&tfUPass=5543%21%25arachni_secret%22%27%60--
+
+[+] [8] SQL Injection
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     3504186010
+[~] Severity:   High
+
+[~] URL:        http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: tfUName
+[~] All inputs: tfUName, tfRName, tfEmail, tfUPass
+
+[~] Tags: sql, injection, regexp, database, error
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to cause the server to respond to
+the request with a database related error.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   UnixWiz - http://unixwiz.net/techtips/sql-injection.html
+[~]   Wikipedia - http://en.wikipedia.org/wiki/SQL_injection
+[~]   SecuriTeam - http://www.securiteam.com/securityreviews/5DP0N1P76E.html
+[~]   OWASP - https://www.owasp.org/index.php/SQL_Injection
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "\"'`--"
+[~] Injected:  "arachni_name\"'`--"
+[~] Signature: Incorrect syntax near
+[~] Proof:     "Incorrect syntax near"
+
+[~] Referring page: http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd%00
+
+[~] Affected page:  http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] HTTP request
+POST /Register.asp?RetURL=%2FDefault.asp%3F_arachni_trainer_700cabd261df516b300d17f7145b8ecd HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ
+Content-Length: 112
+Content-Type: application/x-www-form-urlencoded
+
+tfUName=arachni_name%22%27%60--&tfRName=arachni_name&tfEmail=arachni%40email.gr&tfUPass=5543%21%25arachni_secret
+
+[+] [9] SQL Injection
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     4263723811
+[~] Severity:   High
+
+[~] URL:        http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: tfEmail
+[~] All inputs: tfUName, tfRName, tfEmail, tfUPass
+
+[~] Tags: sql, injection, regexp, database, error
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to cause the server to respond to
+the request with a database related error.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   UnixWiz - http://unixwiz.net/techtips/sql-injection.html
+[~]   Wikipedia - http://en.wikipedia.org/wiki/SQL_injection
+[~]   SecuriTeam - http://www.securiteam.com/securityreviews/5DP0N1P76E.html
+[~]   OWASP - https://www.owasp.org/index.php/SQL_Injection
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "\"'`--"
+[~] Injected:  "arachni@email.gr\"'`--"
+[~] Signature: Incorrect syntax near
+[~] Proof:     "Incorrect syntax near"
+
+[~] Referring page: http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd%00
+
+[~] Affected page:  http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] HTTP request
+POST /Register.asp?RetURL=%2FDefault.asp%3F_arachni_trainer_700cabd261df516b300d17f7145b8ecd HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ
+Content-Length: 112
+Content-Type: application/x-www-form-urlencoded
+
+tfUName=arachni_name&tfRName=arachni_name&tfEmail=arachni%40email.gr%22%27%60--&tfUPass=5543%21%25arachni_secret
+
+[+] [10] Blind SQL Injection (timing attack)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     859825656
+[~] Severity:   High
+
+[~] URL:        http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: tfUPass
+[~] All inputs: tfUName, tfUPass
+
+[~] Tags: sql, blind, timing, injection, database
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to inject specific SQL queries,
+that if vulnerable, result in the responses for each request being delayed before
+being sent by the server.
+This is known as a time-based blind SQL injection vulnerability.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   OWASP - https://www.owasp.org/index.php/Blind_SQL_Injection
+[~]   MITRE - CAPEC - http://capec.mitre.org/data/definitions/7.html
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "';waitfor delay '0:0:16'-- "
+[~] Injected:  "5543!%arachni_secret';waitfor delay '0:0:16'-- "
+
+[~] Referring page: http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+
+[~] Affected page:  http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] HTTP request
+POST /Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ
+Content-Length: 98
+Content-Type: application/x-www-form-urlencoded
+
+tfUName=arachni_name&tfUPass=5543%21%25arachni_secret%27%3Bwaitfor%20delay%20%270%3A0%3A16%27--%20
+
+[~] Remarks
+[~] -------
+[~]   By timing_attack:
+[~]     *  Delays (in seconds) used for each phase: 4.0, 8.0, 16.0
+[~]     *  Response times (in seconds) for control requests prior to phases 2 & 3:
+0.629917, 0.621751
+[~]     *  Response times (in seconds) for stabilization requests after each phase:
+4.581663, 0.613526, 0.649168
+
+
+[+] [11] Blind SQL Injection (timing attack)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     555490400
+[~] Severity:   High
+
+[~] URL:        http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: tfUName
+[~] All inputs: tfUName, tfUPass
+
+[~] Tags: sql, blind, timing, injection, database
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to inject specific SQL queries,
+that if vulnerable, result in the responses for each request being delayed before
+being sent by the server.
+This is known as a time-based blind SQL injection vulnerability.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   OWASP - https://www.owasp.org/index.php/Blind_SQL_Injection
+[~]   MITRE - CAPEC - http://capec.mitre.org/data/definitions/7.html
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "';waitfor delay '0:0:16'-- "
+[~] Injected:  "arachni_name';waitfor delay '0:0:16'-- "
+
+[~] Referring page: http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+
+[~] Affected page:  http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] HTTP request
+POST /Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ
+Content-Length: 98
+Content-Type: application/x-www-form-urlencoded
+
+tfUName=arachni_name%27%3Bwaitfor%20delay%20%270%3A0%3A16%27--%20&tfUPass=5543%21%25arachni_secret
+
+[~] Remarks
+[~] -------
+[~]   By timing_attack:
+[~]     *  Delays (in seconds) used for each phase: 4.0, 8.0, 16.0
+[~]     *  Response times (in seconds) for control requests prior to phases 2 & 3:
+0.638267, 0.642112
+[~]     *  Response times (in seconds) for stabilization requests after each phase: 0.6547,
+0.643249, 0.599107
+
+
+[+] [12] SQL Injection
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     785886627
+[~] Severity:   High
+
+[~] URL:        http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: tfUName
+[~] All inputs: tfUName, tfUPass
+
+[~] Tags: sql, injection, regexp, database, error
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to cause the server to respond to
+the request with a database related error.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   UnixWiz - http://unixwiz.net/techtips/sql-injection.html
+[~]   Wikipedia - http://en.wikipedia.org/wiki/SQL_injection
+[~]   SecuriTeam - http://www.securiteam.com/securityreviews/5DP0N1P76E.html
+[~]   OWASP - https://www.owasp.org/index.php/SQL_Injection
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "\"'`--"
+[~] Injected:  "arachni_name\"'`--"
+[~] Signature: Incorrect syntax near
+[~] Proof:     "Incorrect syntax near"
+
+[~] Referring page: http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+
+[~] Affected page:  http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] HTTP request
+POST /Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ
+Content-Length: 64
+Content-Type: application/x-www-form-urlencoded
+
+tfUName=arachni_name%22%27%60--&tfUPass=5543%21%25arachni_secret
+
+[+] [13] SQL Injection
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1022645307
+[~] Severity:   High
+
+[~] URL:        http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: tfUPass
+[~] All inputs: tfUName, tfUPass
+
+[~] Tags: sql, injection, regexp, database, error
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to cause the server to respond to
+the request with a database related error.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   UnixWiz - http://unixwiz.net/techtips/sql-injection.html
+[~]   Wikipedia - http://en.wikipedia.org/wiki/SQL_injection
+[~]   SecuriTeam - http://www.securiteam.com/securityreviews/5DP0N1P76E.html
+[~]   OWASP - https://www.owasp.org/index.php/SQL_Injection
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "\"'`--"
+[~] Injected:  "5543!%arachni_secret\"'`--"
+[~] Signature: Incorrect syntax near
+[~] Proof:     "Incorrect syntax near"
+
+[~] Referring page: http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+
+[~] Affected page:  http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] HTTP request
+POST /Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ
+Content-Length: 64
+Content-Type: application/x-www-form-urlencoded
+
+tfUName=arachni_name&tfUPass=5543%21%25arachni_secret%22%27%60--
+
+[+] [14] Source code disclosure
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1340790317
+[~] Severity:   High
+
+[~] URL:        http://testasp.vulnweb.com/Templatize.asp
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: item
+[~] All inputs: item
+
+[~] Tags: code, source, file, inclusion, disclosure
+
+[~] Description: 
+[~] 
+A modern web application will be reliant on several different programming languages.
+
+These languages can be broken up in two flavours. These are client-side languages
+(such as those that run in the browser -- like JavaScript) and server-side
+languages (which are executed by the server -- like ASP, PHP, JSP, etc.) to form
+the dynamic pages (client-side code) that are then sent to the client.
+
+Because all server side code should be executed by the server, it should never be
+seen by the client. However in some scenarios, it is possible that:
+
+1. The server side code has syntax errors and therefore is not executed by the
+    server but is instead sent to the client.
+2. Using crafted requests it is possible to force the server into displaying the
+    source code of the application without executing it.
+
+As the server-side source code often contains sensitive information, such as
+database connection strings or details into the application workflow, this can be
+extremely risky.
+
+Cyber-criminals will attempt to discover pages that either accidentally or
+forcefully allow the server-side source code to be disclosed, to assist in
+discovering further vulnerabilities or sensitive information.
+
+Arachni has detected server-side source code within the server's response.
+
+_(False positives may occur when requesting binary files such as images
+(.JPG or .PNG) and may require manual verification.)_
+
+
+[~] http://cwe.mitre.org/data/definitions/540.html
+[~] References:
+[~]   CWE - http://cwe.mitre.org/data/definitions/540.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "/Templates/MainTemplate.dwt.asp"
+[~] Injected:  "/Templates/MainTemplate.dwt.asp"
+[~] Signature: <%|Response\.Write|Request\.Form|Request\.QueryString|
+                        Response\.Flush|Session\.SessionID|Session\.Timeout|
+                        Server\.CreateObject|Server\.MapPath
+[~] Proof:     "<%"
+
+[~] Referring page: http://testasp.vulnweb.com/
+
+[~] Affected page:  http://testasp.vulnweb.com/Templatize.asp?item=/Templates/MainTemplate.dwt.asp
+[~] HTTP request
+GET /Templatize.asp?item=%2FTemplates%2FMainTemplate.dwt.asp HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ
+
+
+
+[+] [15] SQL Injection
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1793669982
+[~] Severity:   High
+
+[~] URL:        http://testasp.vulnweb.com/showforum.asp
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: id
+[~] All inputs: id
+
+[~] Tags: sql, injection, regexp, database, error
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to cause the server to respond to
+the request with a database related error.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   UnixWiz - http://unixwiz.net/techtips/sql-injection.html
+[~]   Wikipedia - http://en.wikipedia.org/wiki/SQL_injection
+[~]   SecuriTeam - http://www.securiteam.com/securityreviews/5DP0N1P76E.html
+[~]   OWASP - https://www.owasp.org/index.php/SQL_Injection
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      ")"
+[~] Injected:  "0)"
+[~] Signature: Incorrect syntax near
+[~] Proof:     "Incorrect syntax near"
+
+[~] Referring page: http://testasp.vulnweb.com/
+
+[~] Affected page:  http://testasp.vulnweb.com/showforum.asp?id=0)
+[~] HTTP request
+GET /showforum.asp?id=0%29 HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ
+
+
+
+[+] [16] Unvalidated redirect
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     3335519000
+[~] Severity:   Medium
+
+[~] URL:        http://testasp.vulnweb.com/Logout.asp
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: RetURL
+[~] All inputs: RetURL
+
+[~] Tags: unvalidated, redirect, injection, header, location
+
+[~] Description: 
+[~] 
+Web applications occasionally use parameter values to store the address of the
+page to which the client will be redirected -- for example:
+`yoursite.com/page.asp?redirect=www.yoursite.com/404.asp`
+
+An unvalidated redirect occurs when the client is able to modify the affected
+parameter value in the request and thus control the location of the redirection.
+For example, the following URL `yoursite.com/page.asp?redirect=www.anothersite.com`
+will redirect to `www.anothersite.com`.
+
+Cyber-criminals will abuse these vulnerabilities in social engineering attacks
+to get users to unknowingly visit malicious web sites.
+
+Arachni has discovered that the server does not validate the parameter value prior
+to redirecting the client to the injected value.
+
+
+[~] http://cwe.mitre.org/data/definitions/819.html
+[~] References:
+[~]   OWASP Top 10 2010 - https://www.owasp.org/index.php/Top_10_2010-A10-Unvalidated_Redirects_and_Forwards
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "www.arachni-boogie-woogie.com"
+[~] Injected:  "www.arachni-boogie-woogie.com"
+
+[~] Referring page: http://testasp.vulnweb.com/Templatize.asp?item=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+
+[~] Affected page:  http://testasp.vulnweb.com/Logout.asp?RetURL=www.arachni-boogie-woogie.com
+[~] HTTP request
+GET /Logout.asp?RetURL=www.arachni-boogie-woogie.com HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=EGNMBCICGGHPLEFNGAMIHJJA
+
+
+
+[+] [17] Unencrypted password form
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     700911849
+[~] Severity:   Medium
+
+[~] URL:        http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: tfUPass
+[~] All inputs: tfUName, tfRName, tfEmail, tfUPass
+
+[~] Tags: unencrypted, password, form
+
+[~] Description: 
+[~] 
+The HTTP protocol by itself is clear text, meaning that any data that is
+transmitted via HTTP can be captured and the contents viewed.
+
+To keep data private, and prevent it from being intercepted, HTTP is often
+tunnelled through either Secure Sockets Layer (SSL), or Transport Layer Security
+(TLS).
+When either of these encryption standards are used it is referred to as HTTPS.
+
+Cyber-criminals will often attempt to compromise credentials passed from the
+client to the server using HTTP.
+This can be conducted via various different Man-in-The-Middle (MiTM) attacks or
+through network packet captures.
+
+Arachni discovered that the affected page contains a `password` input, however,
+the value of the field is not sent to the server utilising HTTPS. Therefore it
+is possible that any submitted credential may become compromised.
+
+
+[~] http://cwe.mitre.org/data/definitions/319.html
+[~] References:
+[~]   OWASP Top 10 2010 - http://www.owasp.org/index.php/Top_10_2010-A9-Insufficient_Transport_Layer_Protection
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      nil
+[~] Injected:  ""
+[~] Proof:     "<form action=\"\" method=\"post\" enctype=\"application/x-www-form-urlencoded\" name=\"frmRegister\">\r\n        <table width=\"350\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"5\" class=\"FramedForm\">\r\n            <tr>\r\n              <td>Username:</td>\r\n              <td align=\"right\"><input name=\"tfUName\" type=\"text\" id=\"tfUName\" class=\"Login\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>Real name:</td>\r\n              <td align=\"right\"><input name=\"tfRName\" type=\"text\" id=\"tfRName\" class=\"Login\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>Email:</td>\r\n              <td align=\"right\"><input name=\"tfEmail\" type=\"text\" id=\"tfEmail\" class=\"Login\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>Password:</td>\r\n              <td align=\"right\"><input name=\"tfUPass\" type=\"password\" id=\"tfUPass\" class=\"Login\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>\u00A0</td>\r\n              <td align=\"right\"><input type=\"submit\" value=\"Register me\"></td>\r\n            </tr>\r\n        </table>\r\n      </form>"
+
+[~] Referring page: http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd%00
+
+[~] Affected page:  http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd%00
+[~] HTTP request
+GET /Register.asp?RetURL=%2FDefault.asp%3F_arachni_trainer_700cabd261df516b300d17f7145b8ecd%00 HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ
+
+
+
+[+] [18] Unencrypted password form
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2304261639
+[~] Severity:   Medium
+
+[~] URL:        http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: tfUPass
+[~] All inputs: tfUName, tfUPass
+
+[~] Tags: unencrypted, password, form
+
+[~] Description: 
+[~] 
+The HTTP protocol by itself is clear text, meaning that any data that is
+transmitted via HTTP can be captured and the contents viewed.
+
+To keep data private, and prevent it from being intercepted, HTTP is often
+tunnelled through either Secure Sockets Layer (SSL), or Transport Layer Security
+(TLS).
+When either of these encryption standards are used it is referred to as HTTPS.
+
+Cyber-criminals will often attempt to compromise credentials passed from the
+client to the server using HTTP.
+This can be conducted via various different Man-in-The-Middle (MiTM) attacks or
+through network packet captures.
+
+Arachni discovered that the affected page contains a `password` input, however,
+the value of the field is not sent to the server utilising HTTPS. Therefore it
+is possible that any submitted credential may become compromised.
+
+
+[~] http://cwe.mitre.org/data/definitions/319.html
+[~] References:
+[~]   OWASP Top 10 2010 - http://www.owasp.org/index.php/Top_10_2010-A9-Insufficient_Transport_Layer_Protection
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      nil
+[~] Injected:  ""
+[~] Proof:     "<form action=\"\" method=\"POST\">\r\n\t\t<table width=\"350\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"5\" class=\"FramedForm\">\r\n            <tr>\r\n              <td>Username:</td>\r\n              <td align=\"right\"><input name=\"tfUName\" type=\"text\" class=\"Login\" id=\"tfUName\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>Password:</td>\r\n              <td align=\"right\"><input name=\"tfUPass\" type=\"password\" class=\"Login\" id=\"tfUPass\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>\u00A0</td>\r\n              <td align=\"right\"><input type=\"submit\" value=\"Login\"></td>\r\n            </tr>\r\n          </table>\r\n\t  </form>"
+
+[~] Referring page: http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+
+[~] Affected page:  http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] HTTP request
+GET /Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ
+
+
+
+[+] [19] Password field with auto-complete
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     353960147
+[~] Severity:   Low
+
+[~] URL:        http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] Element:    form
+[~] All inputs: tfUName, tfRName, tfEmail, tfUPass
+
+[~] Tags: 
+
+[~] Description: 
+[~] 
+In typical form-based web applications, it is common practice for developers to
+allow `autocomplete` within the HTML form to improve the usability of the page.
+With `autocomplete` enabled (default), the browser is allowed to cache previously
+entered form values.
+
+For legitimate purposes, this allows the user to quickly re-enter the same data
+when completing the form multiple times.
+
+When `autocomplete` is enabled on either/both the username and password fields,
+this could allow a cyber-criminal with access to the victim's computer the ability
+to have the victim's credentials automatically entered as the cyber-criminal
+visits the affected page.
+
+Arachni has discovered that the affected page contains a form containing a
+password field that has not disabled `autocomplete`.
+
+[~] References:
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "<form action=\"\" method=\"post\" enctype=\"application/x-www-form-urlencoded\" name=\"frmRegister\">\r\n        <table width=\"350\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"5\" class=\"FramedForm\">\r\n            <tr>\r\n              <td>Username:</td>\r\n              <td align=\"right\"><input name=\"tfUName\" type=\"text\" id=\"tfUName\" class=\"Login\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>Real name:</td>\r\n              <td align=\"right\"><input name=\"tfRName\" type=\"text\" id=\"tfRName\" class=\"Login\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>Email:</td>\r\n              <td align=\"right\"><input name=\"tfEmail\" type=\"text\" id=\"tfEmail\" class=\"Login\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>Password:</td>\r\n              <td align=\"right\"><input name=\"tfUPass\" type=\"password\" id=\"tfUPass\" class=\"Login\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>\u00A0</td>\r\n              <td align=\"right\"><input type=\"submit\" value=\"Register me\"></td>\r\n            </tr>\r\n        </table>\r\n      </form>"
+
+[~] Referring page: http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd%00
+
+[~] Affected page:  http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd%00
+[~] HTTP request
+GET /Register.asp?RetURL=%2FDefault.asp%3F_arachni_trainer_700cabd261df516b300d17f7145b8ecd%00 HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ
+
+
+
+[~] Variation 2 (Trusted):
+[~] Proof:     "<form action=\"\" method=\"post\" enctype=\"application/x-www-form-urlencoded\" name=\"frmRegister\">\r\n        <table width=\"350\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"5\" class=\"FramedForm\">\r\n            <tr>\r\n              <td>Username:</td>\r\n              <td align=\"right\"><input name=\"tfUName\" type=\"text\" id=\"tfUName\" class=\"Login\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>Real name:</td>\r\n              <td align=\"right\"><input name=\"tfRName\" type=\"text\" id=\"tfRName\" class=\"Login\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>Email:</td>\r\n              <td align=\"right\"><input name=\"tfEmail\" type=\"text\" id=\"tfEmail\" class=\"Login\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>Password:</td>\r\n              <td align=\"right\"><input name=\"tfUPass\" type=\"password\" id=\"tfUPass\" class=\"Login\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>\u00A0</td>\r\n              <td align=\"right\"><input type=\"submit\" value=\"Register me\"></td>\r\n            </tr>\r\n        </table>\r\n      </form>"
+
+[~] Referring page: http://testasp.vulnweb.com/Register.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+
+[~] Affected page:  http://testasp.vulnweb.com/Register.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] HTTP request
+GET /Register.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ
+
+
+
+[~] Variation 3 (Trusted):
+[~] Proof:     "<form action=\"\" method=\"post\" enctype=\"application/x-www-form-urlencoded\" name=\"frmRegister\">\r\n        <table width=\"350\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"5\" class=\"FramedForm\">\r\n            <tr>\r\n              <td>Username:</td>\r\n              <td align=\"right\"><input name=\"tfUName\" type=\"text\" id=\"tfUName\" class=\"Login\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>Real name:</td>\r\n              <td align=\"right\"><input name=\"tfRName\" type=\"text\" id=\"tfRName\" class=\"Login\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>Email:</td>\r\n              <td align=\"right\"><input name=\"tfEmail\" type=\"text\" id=\"tfEmail\" class=\"Login\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>Password:</td>\r\n              <td align=\"right\"><input name=\"tfUPass\" type=\"password\" id=\"tfUPass\" class=\"Login\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>\u00A0</td>\r\n              <td align=\"right\"><input type=\"submit\" value=\"Register me\"></td>\r\n            </tr>\r\n        </table>\r\n      </form>"
+
+[~] Referring page: http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?
+
+[~] Affected page:  http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?
+[~] HTTP request
+GET /Register.asp?RetURL=%2FDefault.asp%3F HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=CHAPBCICAFCOGFHMHCPCLIEF
+
+
+
+[+] [20] Password field with auto-complete
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2808757915
+[~] Severity:   Low
+
+[~] URL:        http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] Element:    form
+[~] All inputs: tfUName, tfUPass
+
+[~] Tags: 
+
+[~] Description: 
+[~] 
+In typical form-based web applications, it is common practice for developers to
+allow `autocomplete` within the HTML form to improve the usability of the page.
+With `autocomplete` enabled (default), the browser is allowed to cache previously
+entered form values.
+
+For legitimate purposes, this allows the user to quickly re-enter the same data
+when completing the form multiple times.
+
+When `autocomplete` is enabled on either/both the username and password fields,
+this could allow a cyber-criminal with access to the victim's computer the ability
+to have the victim's credentials automatically entered as the cyber-criminal
+visits the affected page.
+
+Arachni has discovered that the affected page contains a form containing a
+password field that has not disabled `autocomplete`.
+
+[~] References:
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "<form action=\"\" method=\"POST\">\r\n\t\t<table width=\"350\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"5\" class=\"FramedForm\">\r\n            <tr>\r\n              <td>Username:</td>\r\n              <td align=\"right\"><input name=\"tfUName\" type=\"text\" class=\"Login\" id=\"tfUName\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>Password:</td>\r\n              <td align=\"right\"><input name=\"tfUPass\" type=\"password\" class=\"Login\" id=\"tfUPass\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>\u00A0</td>\r\n              <td align=\"right\"><input type=\"submit\" value=\"Login\"></td>\r\n            </tr>\r\n          </table>\r\n\t  </form>"
+
+[~] Referring page: http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+
+[~] Affected page:  http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] HTTP request
+GET /Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ
+
+
+
+[~] Variation 2 (Trusted):
+[~] Proof:     "<form action=\"\" method=\"POST\">\r\n\t\t<table width=\"350\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"5\" class=\"FramedForm\">\r\n            <tr>\r\n              <td>Username:</td>\r\n              <td align=\"right\"><input name=\"tfUName\" type=\"text\" class=\"Login\" id=\"tfUName\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>Password:</td>\r\n              <td align=\"right\"><input name=\"tfUPass\" type=\"password\" class=\"Login\" id=\"tfUPass\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>\u00A0</td>\r\n              <td align=\"right\"><input type=\"submit\" value=\"Login\"></td>\r\n            </tr>\r\n          </table>\r\n\t  </form>"
+
+[~] Referring page: http://testasp.vulnweb.com/Login.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+
+[~] Affected page:  http://testasp.vulnweb.com/Login.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] HTTP request
+GET /Login.asp?RetURL=%2FDefault.asp%3F_arachni_trainer_700cabd261df516b300d17f7145b8ecd HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ
+
+
+
+[~] Variation 3 (Trusted):
+[~] Proof:     "<form action=\"\" method=\"POST\">\r\n\t\t<table width=\"350\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"5\" class=\"FramedForm\">\r\n            <tr>\r\n              <td>Username:</td>\r\n              <td align=\"right\"><input name=\"tfUName\" type=\"text\" class=\"Login\" id=\"tfUName\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>Password:</td>\r\n              <td align=\"right\"><input name=\"tfUPass\" type=\"password\" class=\"Login\" id=\"tfUPass\"></td>\r\n            </tr>\r\n            <tr>\r\n              <td>\u00A0</td>\r\n              <td align=\"right\"><input type=\"submit\" value=\"Login\"></td>\r\n            </tr>\r\n          </table>\r\n\t  </form>"
+
+[~] Referring page: http://testasp.vulnweb.com/Login.asp?RetURL=/Default.asp?
+
+[~] Affected page:  http://testasp.vulnweb.com/Login.asp?RetURL=/Default.asp?
+[~] HTTP request
+GET /Login.asp?RetURL=%2FDefault.asp%3F HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=CHAPBCICAFCOGFHMHCPCLIEF
+
+
+
+[+] [21] Common sensitive file
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     3325129737
+[~] Severity:   Low
+
+[~] URL:        http://testasp.vulnweb.com/robots.txt
+[~] Element:    server
+
+[~] Tags: common, path, file, discovery
+
+[~] Description: 
+[~] 
+Web applications are often made up of multiple files and directories.
+
+It is possible that over time some files may become unreferenced (unused)
+by the web application and forgotten about by the administrator/developer.
+Because web applications are built using common frameworks, they contain common
+files that can be discovered (independent of server).
+
+During the initial recon stages of an attack, cyber-criminals will attempt to
+locate unreferenced files in the hope that the file will assist in further
+compromise of the web application.
+To achieve this they will make thousands of requests using word lists containing
+common filenames.
+The response headers from the server will then indicate if the file exists.
+
+Arachni also contains a list of common file names which it will attempt to access.
+
+[~] References:
+[~]   Apache.org - http://httpd.apache.org/docs/2.0/mod/mod_access.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "HTTP/1.1 200 OK"
+
+[~] Referring page: http://testasp.vulnweb.com/
+
+[~] Affected page:  http://testasp.vulnweb.com/robots.txt
+[~] HTTP request
+GET /robots.txt HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ
+
+
+
+[+] [22] Missing 'X-Frame-Options' header
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     757086528
+[~] Severity:   Low
+
+[~] URL:        http://testasp.vulnweb.com/
+[~] Element:    server
+
+[~] Tags: 
+
+[~] Description: 
+[~] 
+Clickjacking (User Interface redress attack, UI redress attack, UI redressing)
+is a malicious technique of tricking a Web user into clicking on something different
+from what the user perceives they are clicking on, thus potentially revealing
+confidential information or taking control of their computer while clicking on
+seemingly innocuous web pages.
+
+The server didn't return an `X-Frame-Options` header which means that this website
+could be at risk of a clickjacking attack.
+
+The `X-Frame-Options` HTTP response header can be used to indicate whether or not
+a browser should be allowed to render a page inside a frame or iframe. Sites can
+use this to avoid clickjacking attacks, by ensuring that their content is not
+embedded into other sites.
+
+
+[~] http://cwe.mitre.org/data/definitions/693.html
+[~] References:
+[~]   MDN - https://developer.mozilla.org/en-US/docs/Web/HTTP/X-Frame-Options
+[~]   RFC - http://tools.ietf.org/html/rfc7034
+[~]   OWASP - https://www.owasp.org/index.php/Clickjacking
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "HTTP/1.1 200 OK\r\nDate: Fri, 23 Dec 2016 13:41:15 GMT\r\nServer: Microsoft-IIS/6.0\r\nX-Powered-By: ASP.NET\r\nContent-Length: 2653\r\nContent-Type: text/html\r\nSet-Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ; path=/\r\nCache-control: private\r\n\r\n"
+
+[~] Referring page: http://testasp.vulnweb.com/
+
+[~] Affected page:  http://testasp.vulnweb.com/
+[~] HTTP request
+GET / HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [23] Interesting response
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1880805544
+[~] Severity:   Informational
+
+[~] URL:        http://testasp.vulnweb.com/showthread.asp?id=http://www.arachni-boogie-woogie.com/
+[~] Element:    server
+
+[~] Tags: interesting, response, server
+
+[~] Description: 
+[~] 
+The server responded with a non 200 (OK) nor 404 (Not Found) status code.
+This is a non-issue, however exotic HTTP response status codes can provide useful
+insights into the behavior of the web application and assist with the penetration test.
+
+[~] References:
+[~]   w3.org - http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "HTTP/1.1 500 Internal Server Error"
+
+[~] Referring page: http://testasp.vulnweb.com/
+
+[~] Affected page:  http://testasp.vulnweb.com/showthread.asp?id=http://www.arachni-boogie-woogie.com/
+[~] HTTP request
+GET /showthread.asp?id=http%3A%2F%2Fwww.arachni-boogie-woogie.com%2F HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=CHAPBCICAFCOGFHMHCPCLIEF
+
+
+
+[+] [24] Interesting response
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     447098891
+[~] Severity:   Informational
+
+[~] URL:        http://testasp.vulnweb.com/Search.asp?tfSearch=www.arachni-boogie-woogie.com
+[~] Element:    server
+
+[~] Tags: interesting, response, server
+
+[~] Description: 
+[~] 
+The server responded with a non 200 (OK) nor 404 (Not Found) status code.
+This is a non-issue, however exotic HTTP response status codes can provide useful
+insights into the behavior of the web application and assist with the penetration test.
+
+[~] References:
+[~]   w3.org - http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "HTTP/1.1 500 Internal Server Error"
+
+[~] Referring page: http://testasp.vulnweb.com/
+
+[~] Affected page:  http://testasp.vulnweb.com/Search.asp?tfSearch=www.arachni-boogie-woogie.com
+[~] HTTP request
+GET /Search.asp?tfSearch=www.arachni-boogie-woogie.com HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=CHAPBCICAFCOGFHMHCPCLIEF
+
+
+
+[+] [25] Interesting response
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     398280559
+[~] Severity:   Informational
+
+[~] URL:        http://testasp.vulnweb.com/Templates/./
+[~] Element:    server
+
+[~] Tags: interesting, response, server
+
+[~] Description: 
+[~] 
+The server responded with a non 200 (OK) nor 404 (Not Found) status code.
+This is a non-issue, however exotic HTTP response status codes can provide useful
+insights into the behavior of the web application and assist with the penetration test.
+
+[~] References:
+[~]   w3.org - http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "HTTP/1.1 403 Forbidden"
+
+[~] Referring page: http://testasp.vulnweb.com/
+
+[~] Affected page:  http://testasp.vulnweb.com/Templates/./
+[~] HTTP request
+GET /Templates/./ HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=CHAPBCICAFCOGFHMHCPCLIEF
+
+
+
+[+] [26] Interesting response
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     3468836839
+[~] Severity:   Informational
+
+[~] URL:        http://testasp.vulnweb.com/../proc/self/environ
+[~] Element:    server
+
+[~] Tags: interesting, response, server
+
+[~] Description: 
+[~] 
+The server responded with a non 200 (OK) nor 404 (Not Found) status code.
+This is a non-issue, however exotic HTTP response status codes can provide useful
+insights into the behavior of the web application and assist with the penetration test.
+
+[~] References:
+[~]   w3.org - http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "HTTP/1.1 302 Object moved"
+
+[~] Referring page: http://testasp.vulnweb.com/
+
+[~] Affected page:  http://testasp.vulnweb.com/../proc/self/environ
+[~] HTTP request
+GET /..//proc/self/environ HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=EGNMBCICGGHPLEFNGAMIHJJA
+
+
+
+[+] [27] Interesting response
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     980945075
+[~] Severity:   Informational
+
+[~] URL:        http://testasp.vulnweb.com/winnt/win.ini............................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
+[~] Element:    server
+
+[~] Tags: interesting, response, server
+
+[~] Description: 
+[~] 
+The server responded with a non 200 (OK) nor 404 (Not Found) status code.
+This is a non-issue, however exotic HTTP response status codes can provide useful
+insights into the behavior of the web application and assist with the penetration test.
+
+[~] References:
+[~]   w3.org - http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "HTTP/1.1 302 Object moved"
+
+[~] Referring page: http://testasp.vulnweb.com/
+
+[~] Affected page:  http://testasp.vulnweb.com/winnt/win.ini............................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
+[~] HTTP request
+GET /winnt/win.ini............................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................ HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=EGNMBCICGGHPLEFNGAMIHJJA
+
+
+
+[+] [28] Interesting response
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     3922988924
+[~] Severity:   Informational
+
+[~] URL:        http://testasp.vulnweb.com/Logout.asp?RetURL=www.arachni-boogie-woogie.com
+[~] Element:    server
+
+[~] Tags: interesting, response, server
+
+[~] Description: 
+[~] 
+The server responded with a non 200 (OK) nor 404 (Not Found) status code.
+This is a non-issue, however exotic HTTP response status codes can provide useful
+insights into the behavior of the web application and assist with the penetration test.
+
+[~] References:
+[~]   w3.org - http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "HTTP/1.1 302 Object moved"
+
+[~] Referring page: http://testasp.vulnweb.com/
+
+[~] Affected page:  http://testasp.vulnweb.com/Logout.asp?RetURL=www.arachni-boogie-woogie.com
+[~] HTTP request
+GET /Logout.asp?RetURL=www.arachni-boogie-woogie.com HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=EGNMBCICGGHPLEFNGAMIHJJA
+
+
+
+[+] [29] Interesting response
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     3528758503
+[~] Severity:   Informational
+
+[~] URL:        http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] Element:    server
+
+[~] Tags: interesting, response, server
+
+[~] Description: 
+[~] 
+The server responded with a non 200 (OK) nor 404 (Not Found) status code.
+This is a non-issue, however exotic HTTP response status codes can provide useful
+insights into the behavior of the web application and assist with the penetration test.
+
+[~] References:
+[~]   w3.org - http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "HTTP/1.1 500 Internal Server Error"
+
+[~] Referring page: http://testasp.vulnweb.com/
+
+[~] Affected page:  http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] HTTP request
+POST /Register.asp?RetURL=%2FDefault.asp%3F_arachni_trainer_700cabd261df516b300d17f7145b8ecd HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ
+Content-Length: 118
+Content-Type: application/x-www-form-urlencoded
+
+tfUName=arachni_name&tfRName=www.arachni-boogie-woogie.com&tfEmail=arachni%40email.gr&tfUPass=5543%21%25arachni_secret
+
+[+] [30] Interesting response
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1193441420
+[~] Severity:   Informational
+
+[~] URL:        http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] Element:    server
+
+[~] Tags: interesting, response, server
+
+[~] Description: 
+[~] 
+The server responded with a non 200 (OK) nor 404 (Not Found) status code.
+This is a non-issue, however exotic HTTP response status codes can provide useful
+insights into the behavior of the web application and assist with the penetration test.
+
+[~] References:
+[~]   w3.org - http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "HTTP/1.1 302 Object moved"
+
+[~] Referring page: http://testasp.vulnweb.com/
+
+[~] Affected page:  http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~] HTTP request
+POST /Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ
+Content-Length: 53
+Content-Type: application/x-www-form-urlencoded
+
+tfUName=arachni_name&tfUPass=5543%21%25arachni_secret
+
+[+] [31] Interesting response
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1594460394
+[~] Severity:   Informational
+
+[~] URL:        http://testasp.vulnweb.com/showforum.asp?id=www.arachni-boogie-woogie.com
+[~] Element:    server
+
+[~] Tags: interesting, response, server
+
+[~] Description: 
+[~] 
+The server responded with a non 200 (OK) nor 404 (Not Found) status code.
+This is a non-issue, however exotic HTTP response status codes can provide useful
+insights into the behavior of the web application and assist with the penetration test.
+
+[~] References:
+[~]   w3.org - http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "HTTP/1.1 500 Internal Server Error"
+
+[~] Referring page: http://testasp.vulnweb.com/
+
+[~] Affected page:  http://testasp.vulnweb.com/showforum.asp?id=www.arachni-boogie-woogie.com
+[~] HTTP request
+GET /showforum.asp?id=www.arachni-boogie-woogie.com HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ
+
+
+
+[+] [32] Interesting response
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2549819022
+[~] Severity:   Informational
+
+[~] URL:        http://testasp.vulnweb.com/Templatize.asp?item=www.arachni-boogie-woogie.com
+[~] Element:    server
+
+[~] Tags: interesting, response, server
+
+[~] Description: 
+[~] 
+The server responded with a non 200 (OK) nor 404 (Not Found) status code.
+This is a non-issue, however exotic HTTP response status codes can provide useful
+insights into the behavior of the web application and assist with the penetration test.
+
+[~] References:
+[~]   w3.org - http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "HTTP/1.1 500 Internal Server Error"
+
+[~] Referring page: http://testasp.vulnweb.com/
+
+[~] Affected page:  http://testasp.vulnweb.com/Templatize.asp?item=www.arachni-boogie-woogie.com
+[~] HTTP request
+GET /Templatize.asp?item=www.arachni-boogie-woogie.com HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ
+
+
+
+[+] [33] Allowed HTTP methods
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     3660769575
+[~] Severity:   Informational
+
+[~] URL:        http://testasp.vulnweb.com/
+[~] Element:    server
+
+[~] Tags: http, methods, options
+
+[~] Description: 
+[~] 
+There are a number of HTTP methods that can be used on a webserver (`OPTIONS`,
+`HEAD`, `GET`, `POST`, `PUT`, `DELETE` etc.).  Each of these methods perform a
+different function and each have an associated level of risk when their use is
+permitted on the webserver.
+
+A client can use the `OPTIONS` method within a request to query a server to
+determine which methods are allowed.
+
+Cyber-criminals will almost always perform this simple test as it will give a
+very quick indication of any high-risk methods being permitted by the server.
+
+Arachni discovered that several methods are supported by the server.
+
+[~] References:
+[~]   Apache.org - http://httpd.apache.org/docs/2.2/mod/core.html#limitexcept
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "OPTIONS, TRACE, GET, HEAD"
+
+[~] Referring page: http://testasp.vulnweb.com/
+
+[~] Affected page:  http://testasp.vulnweb.com/
+[~] HTTP request
+OPTIONS / HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Cookie: ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ
+
+
+
+[+] [34] HttpOnly cookie
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1728799402
+[~] Severity:   Informational
+
+[~] URL:        http://testasp.vulnweb.com/
+[~] Element:    cookie
+[~] All inputs: ASPSESSIONIDQCTARSBS
+
+[~] Tags: 
+
+[~] Description: 
+[~] 
+HTTP by itself is a stateless protocol. Therefore the server is unable to determine
+which requests are performed by which client, and which clients are authenticated
+or unauthenticated.
+
+The use of HTTP cookies within the headers, allows a web server to identify each
+individual client and can therefore determine which clients hold valid
+authentication, from those that do not. These are known as session cookies.
+
+When a cookie is set by the server (sent the header of an HTTP response) there
+are several flags that can be set to configure the properties of the cookie and
+how it is to be handled by the browser.
+
+The `HttpOnly` flag assists in the prevention of client side-scripts (such as
+JavaScript) accessing and using the cookie.
+
+This can help prevent XSS attacks targeting the cookies holding the client's
+session token (setting the `HttpOnly` flag does not prevent, nor safeguard against
+XSS vulnerabilities themselves).
+
+
+[~] http://cwe.mitre.org/data/definitions/200.html
+[~] References:
+[~]   HttpOnly - OWASP - https://www.owasp.org/index.php/HttpOnly
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "ASPSESSIONIDQCTARSBS=AENMBCICCPBODINFLEEHBBNJ; path=/"
+
+[~] Referring page: http://testasp.vulnweb.com/
+
+[~] Affected page:  http://testasp.vulnweb.com/
+[~] HTTP request
+GET / HTTP/1.1
+Host: testasp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+
+[+] Plugin data:
+[~] ---------------
+
+
+[*] Health map
+[~] ~~~~~~~~~~~~~~
+[~] Description: Generates a simple list of safe/unsafe URLs.
+
+[~] Legend:
+[+] No issues
+[-] Has issues
+
+[-] http://testasp.vulnweb.com/
+[-] http://testasp.vulnweb.com/../proc/self/environ
+[+] http://testasp.vulnweb.com/Default.asp
+[+] http://testasp.vulnweb.com/Login.asp
+[-] http://testasp.vulnweb.com/Login.asp?RetURL=/Default.asp?
+[-] http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[-] http://testasp.vulnweb.com/Logout.asp
+[-] http://testasp.vulnweb.com/Logout.asp?RetURL=www.arachni-boogie-woogie.com
+[+] http://testasp.vulnweb.com/Register.asp
+[-] http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?
+[-] http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[-] http://testasp.vulnweb.com/Search.asp
+[-] http://testasp.vulnweb.com/Search.asp?tfSearch=www.arachni-boogie-woogie.com
+[-] http://testasp.vulnweb.com/Templates/./
+[+] http://testasp.vulnweb.com/Templates/MainTemplate.dwt.asp
+[-] http://testasp.vulnweb.com/Templatize.asp
+[-] http://testasp.vulnweb.com/Templatize.asp?item=www.arachni-boogie-woogie.com
+[+] http://testasp.vulnweb.com/_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[-] http://testasp.vulnweb.com/robots.txt
+[-] http://testasp.vulnweb.com/showforum.asp
+[-] http://testasp.vulnweb.com/showforum.asp?id=1
+[-] http://testasp.vulnweb.com/showforum.asp?id=www.arachni-boogie-woogie.com
+[+] http://testasp.vulnweb.com/showthread.asp
+[-] http://testasp.vulnweb.com/showthread.asp?id=http://www.arachni-boogie-woogie.com/
+[+] http://testasp.vulnweb.com/styles.css
+[-] http://testasp.vulnweb.com/winnt/win.ini............................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................
+
+[~] Total: 26
+[+] Without issues: 7
+[-] With issues: 19 ( 73% )
+
+[*] Uniformity (Lack of central sanitization)
+[~] ~~~~~~~~~~~~~~
+[~] Description: 
+Analyzes the scan results and logs issues which persist across different pages.
+
+This is usually a sign for a lack of a central/single point of input sanitization,
+a bad coding practise.
+
+
+[~] Relevant issues:
+[~] --------------------
+[+] SQL Injection in form input 'tfSearch' using GET at the following pages:
+[~]   * http://testasp.vulnweb.com/Search.asp
+[~]   * http://testasp.vulnweb.com/showforum.asp
+
+[+] SQL Injection in form input 'tfRName' using POST at the following pages:
+[~]   * http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~]   * http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~]   * http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~]   * http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~]   * http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~]   * http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+
+[+] Blind SQL Injection (timing attack) in form input 'tfUPass' using POST at the following pages:
+[~]   * http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~]   * http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+
+[+] Unencrypted password form in form input 'tfUPass' using POST at the following pages:
+[~]   * http://testasp.vulnweb.com/Register.asp?RetURL=/Default.asp?_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+[~]   * http://testasp.vulnweb.com/Login.asp?RetURL=_arachni_trainer_700cabd261df516b300d17f7145b8ecd
+

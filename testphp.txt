@@ -1,0 +1,4406 @@
+Arachni - Web Application Security Scanner Framework v1.2.1
+   Author: Tasos "Zapotek" Laskos <tasos.laskos@arachni-scanner.com>
+
+           (With the support of the community and the Arachni Team.)
+
+   Website:       http://arachni-scanner.com
+   Documentation: http://arachni-scanner.com/wiki
+
+
+
+
+================================================================================
+
+
+[+] Web Application Security Report - Arachni Framework
+
+[~] Report generated on: 2016-12-23 18:13:45 +0900
+[~] Report false positives at: http://github.com/Arachni/arachni/issues
+
+[+] System settings:
+[~] ---------------
+[~] Version:           1.2.1
+[~] Audit started on:  2016-12-23 15:38:55 +0900
+[~] Audit finished on: 2016-12-23 17:52:23 +0900
+[~] Runtime:           02:13:28
+
+[~] URL:        http://testphp.vulnweb.com/
+[~] User agent: Arachni/v1.2.1
+
+[*] Audited elements: 
+[~] * Links
+[~] * Forms
+[~] * Cookies
+[~] * XMLs
+[~] * JSONs
+
+[*] Checks: common_files, insecure_cross_domain_policy_headers, backup_directories, backdoors, insecure_cross_domain_policy_access, directory_listing, htaccess_limit, localstart_asp, webdav, insecure_client_access_policy, captcha, x_frame_options, emails, form_upload, cookie_set_for_parent_domain, password_autocomplete, html_objects, insecure_cors_policy, ssn, insecure_cookies, mixed_resource, credit_card, unencrypted_password_forms, http_only_cookies, private_ip, hsts, cvs_svn_users, backup_files, interesting_responses, common_admin_interfaces, allowed_methods, xst, origin_spoof_access_restriction_bypass, http_put, common_directories, no_sql_injection_differential, xss_path, unvalidated_redirect, xss_event, sql_injection, os_cmd_injection_timing, sql_injection_timing, source_code_disclosure, xss_script_context, file_inclusion, sql_injection_differential, response_splitting, session_fixation, xpath_injection, csrf, xss_dom_script_context, rfi, xss, xss_tag, xss_dom_inputs, ldap_injection, xxe, xss_dom, trainer, code_injection_timing, no_sql_injection, code_injection, code_injection_php_input_wrapper, unvalidated_redirect_dom, os_cmd_injection, path_traversal
+
+[~] ===========================
+
+[+] 71 issues were detected.
+
+[+] [1] Blind SQL Injection (timing attack)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1382453517
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/secured/newuser.php
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: uuname
+[~] All inputs: uaddress, uuname, upass, upass2, urname, ucc, uemail, uphone, signup
+
+[~] Tags: sql, blind, timing, injection, database
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to inject specific SQL queries,
+that if vulnerable, result in the responses for each request being delayed before
+being sent by the server.
+This is known as a time-based blind SQL injection vulnerability.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   OWASP - https://www.owasp.org/index.php/Blind_SQL_Injection
+[~]   MITRE - CAPEC - http://capec.mitre.org/data/definitions/7.html
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "' or sleep(16) # "
+[~] Injected:  "arachni_name' or sleep(16) # "
+
+[~] Referring page: http://testphp.vulnweb.com/signup.php
+
+[~] Affected page:  http://testphp.vulnweb.com/secured/newuser.php
+[~] HTTP request
+POST /secured/newuser.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Content-Length: 201
+Content-Type: application/x-www-form-urlencoded
+
+uaddress=1&uuname=arachni_name%27%20or%20sleep%2816%29%20%23%20&upass=5543%21%25arachni_secret&upass2=5543%21%25arachni_secret&urname=arachni_name&ucc=1&uemail=arachni%40email.gr&uphone=1&signup=signup
+
+[~] Remarks
+[~] -------
+[~]   By timing_attack:
+[~]     *  Delays (in seconds) used for each phase: 4.0, 8.0, 16.0
+[~]     *  Response times (in seconds) for control requests prior to phases 2 & 3:
+0.570088, 0.308172
+[~]     *  Response times (in seconds) for stabilization requests after each phase:
+0.607189, 0.603137, 0.597061
+
+
+[+] [2] SQL Injection
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     4131127581
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/secured/newuser.php
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: uuname
+[~] All inputs: uaddress, uuname, upass, upass2, urname, ucc, uemail, uphone, signup
+
+[~] Tags: sql, injection, regexp, database, error
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to cause the server to respond to
+the request with a database related error.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   UnixWiz - http://unixwiz.net/techtips/sql-injection.html
+[~]   Wikipedia - http://en.wikipedia.org/wiki/SQL_injection
+[~]   SecuriTeam - http://www.securiteam.com/securityreviews/5DP0N1P76E.html
+[~]   OWASP - https://www.owasp.org/index.php/SQL_Injection
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "\"'`--"
+[~] Injected:  "arachni_name\"'`--"
+[~] Signature: SQL syntax.*MySQL
+[~] Proof:     "SQL syntax; check the manual that corresponds to your MySQL"
+
+[~] Referring page: http://testphp.vulnweb.com/signup.php
+
+[~] Affected page:  http://testphp.vulnweb.com/secured/newuser.php
+[~] HTTP request
+POST /secured/newuser.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Content-Length: 179
+Content-Type: application/x-www-form-urlencoded
+
+uaddress=1&uuname=arachni_name%22%27%60--&upass=5543%21%25arachni_secret&upass2=5543%21%25arachni_secret&urname=arachni_name&ucc=1&uemail=arachni%40email.gr&uphone=1&signup=signup
+
+[+] [3] Cross-Site Scripting (XSS)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     3661929442
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/secured/newuser.php
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: ucc
+[~] All inputs: uaddress, uuname, upass, upass2, urname, ucc, uemail, uphone, signup
+
+[~] Tags: xss, regexp, injection, script
+
+[~] Description: 
+[~] 
+Client-side scripts are used extensively by modern web applications.
+They perform from simple functions (such as the formatting of text) up to full
+manipulation of client-side data and Operating System interaction.
+
+Cross Site Scripting (XSS) allows clients to inject scripts into a request and
+have the server return the script to the client in the response. This occurs
+because the application is taking untrusted data (in this example, from the client)
+and reusing it without performing any validation or sanitisation.
+
+If the injected script is returned immediately this is known as reflected XSS.
+If the injected script is stored by the server and returned to any client visiting
+the affected page, then this is known as persistent XSS (also stored XSS).
+
+Arachni has discovered that it is possible to insert script content directly into
+HTML element content.
+
+
+[~] http://cwe.mitre.org/data/definitions/79.html
+[~] References:
+[~]   ha.ckers - http://ha.ckers.org/xss.html
+[~]   Secunia - http://secunia.com/advisories/9716/
+[~]   WASC - http://projects.webappsec.org/w/page/13246920/Cross%20Site%20Scripting
+[~]   OWASP - https://www.owasp.org/index.php/XSS_%28Cross_Site_Scripting%29_Prevention_Cheat_Sheet
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "()\"&%1'-;<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>'"
+[~] Injected:  "1()\"&%1'-;<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>'"
+[~] Proof:     "<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+
+[~] Referring page: http://testphp.vulnweb.com/signup.php
+
+[~] Affected page:  http://testphp.vulnweb.com/secured/newuser.php
+[~] HTTP request
+POST /secured/newuser.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Content-Length: 256
+Content-Type: application/x-www-form-urlencoded
+
+uaddress=1&uuname=arachni_name&upass=5543%21%25arachni_secret&upass2=5543%21%25arachni_secret&urname=arachni_name&ucc=1%28%29%22%26%251%27-%3B%3Csome_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50%2F%3E%27&uemail=arachni%40email.gr&uphone=1&signup=signup
+
+[+] [4] Cross-Site Scripting (XSS)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     3947187832
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/secured/newuser.php
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: urname
+[~] All inputs: uaddress, uuname, upass, upass2, urname, ucc, uemail, uphone, signup
+
+[~] Tags: xss, regexp, injection, script
+
+[~] Description: 
+[~] 
+Client-side scripts are used extensively by modern web applications.
+They perform from simple functions (such as the formatting of text) up to full
+manipulation of client-side data and Operating System interaction.
+
+Cross Site Scripting (XSS) allows clients to inject scripts into a request and
+have the server return the script to the client in the response. This occurs
+because the application is taking untrusted data (in this example, from the client)
+and reusing it without performing any validation or sanitisation.
+
+If the injected script is returned immediately this is known as reflected XSS.
+If the injected script is stored by the server and returned to any client visiting
+the affected page, then this is known as persistent XSS (also stored XSS).
+
+Arachni has discovered that it is possible to insert script content directly into
+HTML element content.
+
+
+[~] http://cwe.mitre.org/data/definitions/79.html
+[~] References:
+[~]   ha.ckers - http://ha.ckers.org/xss.html
+[~]   Secunia - http://secunia.com/advisories/9716/
+[~]   WASC - http://projects.webappsec.org/w/page/13246920/Cross%20Site%20Scripting
+[~]   OWASP - https://www.owasp.org/index.php/XSS_%28Cross_Site_Scripting%29_Prevention_Cheat_Sheet
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "()\"&%1'-;<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>'"
+[~] Injected:  "arachni_name()\"&%1'-;<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>'"
+[~] Proof:     "<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+
+[~] Referring page: http://testphp.vulnweb.com/signup.php
+
+[~] Affected page:  http://testphp.vulnweb.com/secured/newuser.php
+[~] HTTP request
+POST /secured/newuser.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Content-Length: 256
+Content-Type: application/x-www-form-urlencoded
+
+uaddress=1&uuname=arachni_name&upass=5543%21%25arachni_secret&upass2=5543%21%25arachni_secret&urname=arachni_name%28%29%22%26%251%27-%3B%3Csome_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50%2F%3E%27&ucc=1&uemail=arachni%40email.gr&uphone=1&signup=signup
+
+[+] [5] Cross-Site Scripting (XSS)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     613120495
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/secured/newuser.php
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: upass2
+[~] All inputs: uaddress, uuname, upass, upass2, urname, ucc, uemail, uphone, signup
+
+[~] Tags: xss, regexp, injection, script
+
+[~] Description: 
+[~] 
+Client-side scripts are used extensively by modern web applications.
+They perform from simple functions (such as the formatting of text) up to full
+manipulation of client-side data and Operating System interaction.
+
+Cross Site Scripting (XSS) allows clients to inject scripts into a request and
+have the server return the script to the client in the response. This occurs
+because the application is taking untrusted data (in this example, from the client)
+and reusing it without performing any validation or sanitisation.
+
+If the injected script is returned immediately this is known as reflected XSS.
+If the injected script is stored by the server and returned to any client visiting
+the affected page, then this is known as persistent XSS (also stored XSS).
+
+Arachni has discovered that it is possible to insert script content directly into
+HTML element content.
+
+
+[~] http://cwe.mitre.org/data/definitions/79.html
+[~] References:
+[~]   ha.ckers - http://ha.ckers.org/xss.html
+[~]   Secunia - http://secunia.com/advisories/9716/
+[~]   WASC - http://projects.webappsec.org/w/page/13246920/Cross%20Site%20Scripting
+[~]   OWASP - https://www.owasp.org/index.php/XSS_%28Cross_Site_Scripting%29_Prevention_Cheat_Sheet
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "()\"&%1'-;<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>'"
+[~] Injected:  "5543!%arachni_secret()\"&%1'-;<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>'"
+[~] Proof:     "<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+
+[~] Referring page: http://testphp.vulnweb.com/signup.php
+
+[~] Affected page:  http://testphp.vulnweb.com/secured/newuser.php
+[~] HTTP request
+POST /secured/newuser.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Content-Length: 344
+Content-Type: application/x-www-form-urlencoded
+
+uaddress=1&uuname=arachni_name&upass=5543%21%25arachni_secret%28%29%22%26%251%27-%3B%3Csome_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50%2F%3E%27&upass2=5543%21%25arachni_secret%28%29%22%26%251%27-%3B%3Csome_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50%2F%3E%27&urname=arachni_name&ucc=1&uemail=arachni%40email.gr&uphone=1&signup=signup
+
+[+] [6] Cross-Site Scripting (XSS)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     760396826
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/secured/newuser.php
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: uuname
+[~] All inputs: uaddress, uuname, upass, upass2, urname, ucc, uemail, uphone, signup
+
+[~] Tags: xss, regexp, injection, script
+
+[~] Description: 
+[~] 
+Client-side scripts are used extensively by modern web applications.
+They perform from simple functions (such as the formatting of text) up to full
+manipulation of client-side data and Operating System interaction.
+
+Cross Site Scripting (XSS) allows clients to inject scripts into a request and
+have the server return the script to the client in the response. This occurs
+because the application is taking untrusted data (in this example, from the client)
+and reusing it without performing any validation or sanitisation.
+
+If the injected script is returned immediately this is known as reflected XSS.
+If the injected script is stored by the server and returned to any client visiting
+the affected page, then this is known as persistent XSS (also stored XSS).
+
+Arachni has discovered that it is possible to insert script content directly into
+HTML element content.
+
+
+[~] http://cwe.mitre.org/data/definitions/79.html
+[~] References:
+[~]   ha.ckers - http://ha.ckers.org/xss.html
+[~]   Secunia - http://secunia.com/advisories/9716/
+[~]   WASC - http://projects.webappsec.org/w/page/13246920/Cross%20Site%20Scripting
+[~]   OWASP - https://www.owasp.org/index.php/XSS_%28Cross_Site_Scripting%29_Prevention_Cheat_Sheet
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "()\"&%1'-;<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>'"
+[~] Injected:  "arachni_name()\"&%1'-;<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>'"
+[~] Proof:     "<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+
+[~] Referring page: http://testphp.vulnweb.com/signup.php
+
+[~] Affected page:  http://testphp.vulnweb.com/secured/newuser.php
+[~] HTTP request
+POST /secured/newuser.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Content-Length: 256
+Content-Type: application/x-www-form-urlencoded
+
+uaddress=1&uuname=arachni_name%28%29%22%26%251%27-%3B%3Csome_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50%2F%3E%27&upass=5543%21%25arachni_secret&upass2=5543%21%25arachni_secret&urname=arachni_name&ucc=1&uemail=arachni%40email.gr&uphone=1&signup=signup
+
+[+] [7] Cross-Site Scripting (XSS)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1678973360
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/secured/newuser.php
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: uaddress
+[~] All inputs: uaddress, uuname, upass, upass2, urname, ucc, uemail, uphone, signup
+
+[~] Tags: xss, regexp, injection, script
+
+[~] Description: 
+[~] 
+Client-side scripts are used extensively by modern web applications.
+They perform from simple functions (such as the formatting of text) up to full
+manipulation of client-side data and Operating System interaction.
+
+Cross Site Scripting (XSS) allows clients to inject scripts into a request and
+have the server return the script to the client in the response. This occurs
+because the application is taking untrusted data (in this example, from the client)
+and reusing it without performing any validation or sanitisation.
+
+If the injected script is returned immediately this is known as reflected XSS.
+If the injected script is stored by the server and returned to any client visiting
+the affected page, then this is known as persistent XSS (also stored XSS).
+
+Arachni has discovered that it is possible to insert script content directly into
+HTML element content.
+
+
+[~] http://cwe.mitre.org/data/definitions/79.html
+[~] References:
+[~]   ha.ckers - http://ha.ckers.org/xss.html
+[~]   Secunia - http://secunia.com/advisories/9716/
+[~]   WASC - http://projects.webappsec.org/w/page/13246920/Cross%20Site%20Scripting
+[~]   OWASP - https://www.owasp.org/index.php/XSS_%28Cross_Site_Scripting%29_Prevention_Cheat_Sheet
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "()\"&%1'-;<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>'"
+[~] Injected:  "1()\"&%1'-;<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>'"
+[~] Proof:     "<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+
+[~] Referring page: http://testphp.vulnweb.com/signup.php
+
+[~] Affected page:  http://testphp.vulnweb.com/secured/newuser.php
+[~] HTTP request
+POST /secured/newuser.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Content-Length: 256
+Content-Type: application/x-www-form-urlencoded
+
+uaddress=1%28%29%22%26%251%27-%3B%3Csome_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50%2F%3E%27&uuname=arachni_name&upass=5543%21%25arachni_secret&upass2=5543%21%25arachni_secret&urname=arachni_name&ucc=1&uemail=arachni%40email.gr&uphone=1&signup=signup
+
+[+] [8] Cross-Site Scripting (XSS)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     3651554185
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/secured/newuser.php
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: uemail
+[~] All inputs: uaddress, uuname, upass, upass2, urname, ucc, uemail, uphone, signup
+
+[~] Tags: xss, regexp, injection, script
+
+[~] Description: 
+[~] 
+Client-side scripts are used extensively by modern web applications.
+They perform from simple functions (such as the formatting of text) up to full
+manipulation of client-side data and Operating System interaction.
+
+Cross Site Scripting (XSS) allows clients to inject scripts into a request and
+have the server return the script to the client in the response. This occurs
+because the application is taking untrusted data (in this example, from the client)
+and reusing it without performing any validation or sanitisation.
+
+If the injected script is returned immediately this is known as reflected XSS.
+If the injected script is stored by the server and returned to any client visiting
+the affected page, then this is known as persistent XSS (also stored XSS).
+
+Arachni has discovered that it is possible to insert script content directly into
+HTML element content.
+
+
+[~] http://cwe.mitre.org/data/definitions/79.html
+[~] References:
+[~]   ha.ckers - http://ha.ckers.org/xss.html
+[~]   Secunia - http://secunia.com/advisories/9716/
+[~]   WASC - http://projects.webappsec.org/w/page/13246920/Cross%20Site%20Scripting
+[~]   OWASP - https://www.owasp.org/index.php/XSS_%28Cross_Site_Scripting%29_Prevention_Cheat_Sheet
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+[~] Injected:  "arachni@email.gr<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+[~] Proof:     "<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+
+[~] Referring page: http://testphp.vulnweb.com/signup.php
+
+[~] Affected page:  http://testphp.vulnweb.com/secured/newuser.php
+[~] HTTP request
+POST /secured/newuser.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Content-Length: 230
+Content-Type: application/x-www-form-urlencoded
+
+uaddress=1&uuname=arachni_name&upass=5543%21%25arachni_secret&upass2=5543%21%25arachni_secret&urname=arachni_name&ucc=1&uemail=arachni%40email.gr%3Csome_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50%2F%3E&uphone=1&signup=signup
+
+[+] [9] Cross-Site Scripting (XSS)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     4156186645
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/secured/newuser.php
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: uphone
+[~] All inputs: uaddress, uuname, upass, upass2, urname, ucc, uemail, uphone, signup
+
+[~] Tags: xss, regexp, injection, script
+
+[~] Description: 
+[~] 
+Client-side scripts are used extensively by modern web applications.
+They perform from simple functions (such as the formatting of text) up to full
+manipulation of client-side data and Operating System interaction.
+
+Cross Site Scripting (XSS) allows clients to inject scripts into a request and
+have the server return the script to the client in the response. This occurs
+because the application is taking untrusted data (in this example, from the client)
+and reusing it without performing any validation or sanitisation.
+
+If the injected script is returned immediately this is known as reflected XSS.
+If the injected script is stored by the server and returned to any client visiting
+the affected page, then this is known as persistent XSS (also stored XSS).
+
+Arachni has discovered that it is possible to insert script content directly into
+HTML element content.
+
+
+[~] http://cwe.mitre.org/data/definitions/79.html
+[~] References:
+[~]   ha.ckers - http://ha.ckers.org/xss.html
+[~]   Secunia - http://secunia.com/advisories/9716/
+[~]   WASC - http://projects.webappsec.org/w/page/13246920/Cross%20Site%20Scripting
+[~]   OWASP - https://www.owasp.org/index.php/XSS_%28Cross_Site_Scripting%29_Prevention_Cheat_Sheet
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+[~] Injected:  "1<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+[~] Proof:     "<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+
+[~] Referring page: http://testphp.vulnweb.com/signup.php
+
+[~] Affected page:  http://testphp.vulnweb.com/secured/newuser.php
+[~] HTTP request
+POST /secured/newuser.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Content-Length: 230
+Content-Type: application/x-www-form-urlencoded
+
+uaddress=1&uuname=arachni_name&upass=5543%21%25arachni_secret&upass2=5543%21%25arachni_secret&urname=arachni_name&ucc=1&uemail=arachni%40email.gr&uphone=1%3Csome_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50%2F%3E&signup=signup
+
+[+] [10] Blind NoSQL Injection (differential analysis)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2213765069
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/hpp/params.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: p
+[~] All inputs: p, pp
+
+[~] Tags: nosql, blind, differential, injection, database
+
+[~] Description: 
+[~] 
+A NoSQL injection occurs when a value originating from the client's request is
+used within a NoSQL call without prior sanitisation.
+
+This can allow cyber-criminals to execute arbitrary NoSQL code and thus steal data,
+or use the additional functionality of the database server to take control of
+further server components.
+
+Arachni discovered that the affected page and parameter are vulnerable. This
+injection was detected as Arachni was able to inject specific NoSQL queries that
+if vulnerable result in the responses for each injection being different. This is
+known as a blind NoSQL injection vulnerability.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   OWASP - https://www.owasp.org/index.php/Testing_for_NoSQL_injection
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "1||this"
+[~] Injected:  "1||this"
+
+[~] Referring page: http://testphp.vulnweb.com/hpp/?pp=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50%00
+
+[~] Affected page:  http://testphp.vulnweb.com/hpp/params.php?p=1%7C%7Cthis&pp=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50%00
+[~] HTTP request
+GET /hpp/params.php?p=1%7C%7Cthis&pp=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50%00 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Remarks
+[~] -------
+[~]   By differential_analysis:
+[~]     *  True expression: 1||this
+[~]     *  False expression: 1||!this
+[~]     *  Control false expression: -1
+
+
+[+] [11] Blind SQL Injection (differential analysis)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     3336990393
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/hpp/params.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: p
+[~] All inputs: p, pp
+
+[~] Tags: sql, blind, differential, injection, database
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to inject specific SQL queries,
+that if vulnerable, result in the responses for each injection being different.
+This is known as a blind SQL injection vulnerability.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   OWASP - https://www.owasp.org/index.php/Blind_SQL_Injection
+[~]   MITRE - CAPEC - http://capec.mitre.org/data/definitions/7.html
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "-1 or 1=1"
+[~] Injected:  "-1 or 1=1"
+
+[~] Referring page: http://testphp.vulnweb.com/hpp/?pp=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50%00
+
+[~] Affected page:  http://testphp.vulnweb.com/hpp/params.php?p=-1%20or%201=1&pp=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50%00
+[~] HTTP request
+GET /hpp/params.php?p=-1%20or%201%3D1&pp=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50%00 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Remarks
+[~] -------
+[~]   By differential_analysis:
+[~]     *  True expression: -1 or 1=1
+[~]     *  False expression: -1 or 1=2
+[~]     *  Control false expression: -1
+
+
+[+] [12] Blind SQL Injection (differential analysis)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     4151802158
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/hpp/params.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: pp
+[~] All inputs: p, pp
+
+[~] Tags: sql, blind, differential, injection, database
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to inject specific SQL queries,
+that if vulnerable, result in the responses for each injection being different.
+This is known as a blind SQL injection vulnerability.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   OWASP - https://www.owasp.org/index.php/Blind_SQL_Injection
+[~]   MITRE - CAPEC - http://capec.mitre.org/data/definitions/7.html
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "-1 or 1=1"
+[~] Injected:  "-1 or 1=1"
+
+[~] Referring page: http://testphp.vulnweb.com/hpp/?pp=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50%00
+
+[~] Affected page:  http://testphp.vulnweb.com/hpp/params.php?p=valid&pp=-1%20or%201=1
+[~] HTTP request
+GET /hpp/params.php?p=valid&pp=-1%20or%201%3D1 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Remarks
+[~] -------
+[~]   By differential_analysis:
+[~]     *  True expression: -1 or 1=1
+[~]     *  False expression: -1 or 1=2
+[~]     *  Control false expression: -1
+
+
+[+] [13] Blind NoSQL Injection (differential analysis)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2690308410
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/hpp/params.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: pp
+[~] All inputs: p, pp
+
+[~] Tags: nosql, blind, differential, injection, database
+
+[~] Description: 
+[~] 
+A NoSQL injection occurs when a value originating from the client's request is
+used within a NoSQL call without prior sanitisation.
+
+This can allow cyber-criminals to execute arbitrary NoSQL code and thus steal data,
+or use the additional functionality of the database server to take control of
+further server components.
+
+Arachni discovered that the affected page and parameter are vulnerable. This
+injection was detected as Arachni was able to inject specific NoSQL queries that
+if vulnerable result in the responses for each injection being different. This is
+known as a blind NoSQL injection vulnerability.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   OWASP - https://www.owasp.org/index.php/Testing_for_NoSQL_injection
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "1||this"
+[~] Injected:  "1||this"
+
+[~] Referring page: http://testphp.vulnweb.com/hpp/?pp=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50%00
+
+[~] Affected page:  http://testphp.vulnweb.com/hpp/params.php?p=valid&pp=1%7C%7Cthis
+[~] HTTP request
+GET /hpp/params.php?p=valid&pp=1%7C%7Cthis HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Remarks
+[~] -------
+[~]   By differential_analysis:
+[~]     *  True expression: 1||this
+[~]     *  False expression: 1||!this
+[~]     *  Control false expression: -1
+
+
+[+] [14] Cross-Site Scripting (XSS)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2225535187
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/hpp/params.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: pp
+[~] All inputs: p, pp
+
+[~] Tags: xss, regexp, injection, script
+
+[~] Description: 
+[~] 
+Client-side scripts are used extensively by modern web applications.
+They perform from simple functions (such as the formatting of text) up to full
+manipulation of client-side data and Operating System interaction.
+
+Cross Site Scripting (XSS) allows clients to inject scripts into a request and
+have the server return the script to the client in the response. This occurs
+because the application is taking untrusted data (in this example, from the client)
+and reusing it without performing any validation or sanitisation.
+
+If the injected script is returned immediately this is known as reflected XSS.
+If the injected script is stored by the server and returned to any client visiting
+the affected page, then this is known as persistent XSS (also stored XSS).
+
+Arachni has discovered that it is possible to insert script content directly into
+HTML element content.
+
+
+[~] http://cwe.mitre.org/data/definitions/79.html
+[~] References:
+[~]   ha.ckers - http://ha.ckers.org/xss.html
+[~]   Secunia - http://secunia.com/advisories/9716/
+[~]   WASC - http://projects.webappsec.org/w/page/13246920/Cross%20Site%20Scripting
+[~]   OWASP - https://www.owasp.org/index.php/XSS_%28Cross_Site_Scripting%29_Prevention_Cheat_Sheet
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+[~] Injected:  "_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50\u0000<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+[~] Proof:     "<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+
+[~] Referring page: http://testphp.vulnweb.com/hpp/?pp=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50%00
+
+[~] Affected page:  http://testphp.vulnweb.com/hpp/params.php?p=valid&pp=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50%00%3Csome_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/%3E
+[~] HTTP request
+GET /hpp/params.php?p=valid&pp=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50%00%3Csome_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50%2F%3E HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [15] Cross-Site Scripting (XSS)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     3413184574
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/hpp/params.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: p
+[~] All inputs: p, pp
+
+[~] Tags: xss, regexp, injection, script
+
+[~] Description: 
+[~] 
+Client-side scripts are used extensively by modern web applications.
+They perform from simple functions (such as the formatting of text) up to full
+manipulation of client-side data and Operating System interaction.
+
+Cross Site Scripting (XSS) allows clients to inject scripts into a request and
+have the server return the script to the client in the response. This occurs
+because the application is taking untrusted data (in this example, from the client)
+and reusing it without performing any validation or sanitisation.
+
+If the injected script is returned immediately this is known as reflected XSS.
+If the injected script is stored by the server and returned to any client visiting
+the affected page, then this is known as persistent XSS (also stored XSS).
+
+Arachni has discovered that it is possible to insert script content directly into
+HTML element content.
+
+
+[~] http://cwe.mitre.org/data/definitions/79.html
+[~] References:
+[~]   ha.ckers - http://ha.ckers.org/xss.html
+[~]   Secunia - http://secunia.com/advisories/9716/
+[~]   WASC - http://projects.webappsec.org/w/page/13246920/Cross%20Site%20Scripting
+[~]   OWASP - https://www.owasp.org/index.php/XSS_%28Cross_Site_Scripting%29_Prevention_Cheat_Sheet
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+[~] Injected:  "valid<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+[~] Proof:     "<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+
+[~] Referring page: http://testphp.vulnweb.com/hpp/?pp=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50%00
+
+[~] Affected page:  http://testphp.vulnweb.com/hpp/params.php?p=valid%3Csome_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/%3E&pp=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50%00
+[~] HTTP request
+GET /hpp/params.php?p=valid%3Csome_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50%2F%3E&pp=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50%00 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [16] Code injection (timing attack)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2074222681
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/listproducts.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: artist
+[~] All inputs: artist
+
+[~] Tags: code, injection, timing, blind
+
+[~] Description: 
+[~] 
+A modern web application will be reliant on several different programming languages.
+
+These languages can be broken up in two flavours. These are client-side languages
+(such as those that run in the browser -- like JavaScript) and server-side
+languages (which are executed by the server -- like ASP, PHP, JSP, etc.) to form
+the dynamic pages (client-side code) that are then sent to the client.
+
+Because all server-side code should be executed by the server, it should only ever
+come from a trusted source.
+
+Code injection occurs when the server takes untrusted code (ie. from the client)
+and executes it.
+
+Cyber-criminals will abuse this weakness to execute arbitrary code on the server,
+which could result in complete server compromise.
+
+By injecting server-side code that is known to take a specific amount of time to
+execute, Arachni was able to detect time-based code injection. This indicates that
+proper input sanitisation is not occurring.
+
+
+[~] http://cwe.mitre.org/data/definitions/94.html
+[~] References:
+[~]   PHP - http://php.net/manual/en/function.eval.php
+[~]   Perl - http://perldoc.perl.org/functions/eval.html
+[~]   Python - http://docs.python.org/py3k/library/functions.html#eval
+[~]   ASP - http://www.aspdev.org/asp/asp-eval-execute/
+[~]   Ruby - http://en.wikipedia.org/wiki/Eval#Ruby
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      " sleep(16000/1000);"
+[~] Injected:  " sleep(16000/1000);"
+
+[~] Referring page: http://testphp.vulnweb.com/artists.php?artist=1
+
+[~] Affected page:  http://testphp.vulnweb.com/listproducts.php?artist=%20sleep(16000/1000);
+[~] HTTP request
+GET /listproducts.php?artist=%20sleep%2816000%2F1000%29%3B HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Remarks
+[~] -------
+[~]   By timing_attack:
+[~]     *  Delays (in seconds) used for each phase: 4.0, 8.0, 16.0
+[~]     *  Response times (in seconds) for control requests prior to phases 2 & 3:
+0.297353, 0.637909
+[~]     *  Response times (in seconds) for stabilization requests after each phase:
+2.873131, 0.616891, 0.566582
+
+
+[+] [17] Blind SQL Injection (timing attack)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2159203866
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/listproducts.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: artist
+[~] All inputs: artist
+
+[~] Tags: sql, blind, timing, injection, database
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to inject specific SQL queries,
+that if vulnerable, result in the responses for each request being delayed before
+being sent by the server.
+This is known as a time-based blind SQL injection vulnerability.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   OWASP - https://www.owasp.org/index.php/Blind_SQL_Injection
+[~]   MITRE - CAPEC - http://capec.mitre.org/data/definitions/7.html
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      " and sleep(16)"
+[~] Injected:  "1 and sleep(16)"
+
+[~] Referring page: http://testphp.vulnweb.com/artists.php?artist=1
+
+[~] Affected page:  http://testphp.vulnweb.com/listproducts.php?artist=1%20and%20sleep(16)
+[~] HTTP request
+GET /listproducts.php?artist=1%20and%20sleep%2816%29 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Remarks
+[~] -------
+[~]   By timing_attack:
+[~]     *  Delays (in seconds) used for each phase: 4.0, 8.0, 16.0
+[~]     *  Response times (in seconds) for control requests prior to phases 2 & 3:
+0.291607, 0.324721
+[~]     *  Response times (in seconds) for stabilization requests after each phase:
+0.58946, 0.604153, 0.627973
+
+
+[+] [18] SQL Injection
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2443905152
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/listproducts.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: artist
+[~] All inputs: artist
+
+[~] Tags: sql, injection, regexp, database, error
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to cause the server to respond to
+the request with a database related error.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   UnixWiz - http://unixwiz.net/techtips/sql-injection.html
+[~]   Wikipedia - http://en.wikipedia.org/wiki/SQL_injection
+[~]   SecuriTeam - http://www.securiteam.com/securityreviews/5DP0N1P76E.html
+[~]   OWASP - https://www.owasp.org/index.php/SQL_Injection
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      ")"
+[~] Injected:  "1)"
+[~] Signature: Warning.*mysql_.*
+[~] Proof:     "Warning: mysql_fetch_array() expects parameter 1 to be resource, boolean given in /hj/var/www/listproducts.php on line 74"
+
+[~] Referring page: http://testphp.vulnweb.com/artists.php?artist=1
+
+[~] Affected page:  http://testphp.vulnweb.com/listproducts.php?artist=1)
+[~] HTTP request
+GET /listproducts.php?artist=1%29 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [19] Cross-Site Scripting (XSS)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1739228110
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/listproducts.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: artist
+[~] All inputs: artist
+
+[~] Tags: xss, regexp, injection, script
+
+[~] Description: 
+[~] 
+Client-side scripts are used extensively by modern web applications.
+They perform from simple functions (such as the formatting of text) up to full
+manipulation of client-side data and Operating System interaction.
+
+Cross Site Scripting (XSS) allows clients to inject scripts into a request and
+have the server return the script to the client in the response. This occurs
+because the application is taking untrusted data (in this example, from the client)
+and reusing it without performing any validation or sanitisation.
+
+If the injected script is returned immediately this is known as reflected XSS.
+If the injected script is stored by the server and returned to any client visiting
+the affected page, then this is known as persistent XSS (also stored XSS).
+
+Arachni has discovered that it is possible to insert script content directly into
+HTML element content.
+
+
+[~] http://cwe.mitre.org/data/definitions/79.html
+[~] References:
+[~]   ha.ckers - http://ha.ckers.org/xss.html
+[~]   Secunia - http://secunia.com/advisories/9716/
+[~]   WASC - http://projects.webappsec.org/w/page/13246920/Cross%20Site%20Scripting
+[~]   OWASP - https://www.owasp.org/index.php/XSS_%28Cross_Site_Scripting%29_Prevention_Cheat_Sheet
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "()\"&%1'-;<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>'"
+[~] Injected:  "1()\"&%1'-;<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>'"
+[~] Proof:     "<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+
+[~] Referring page: http://testphp.vulnweb.com/artists.php?artist=1
+
+[~] Affected page:  http://testphp.vulnweb.com/listproducts.php?artist=1()%22%26%251%27-;%3Csome_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/%3E%27
+[~] HTTP request
+GET /listproducts.php?artist=1%28%29%22%26%251%27-%3B%3Csome_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50%2F%3E%27 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [20] Cross-Site Scripting (XSS) in HTML tag
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     3193858117
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/hpp/
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: pp
+[~] All inputs: pp
+
+[~] Tags: xss, script, tag, regexp, dom, attribute, injection
+
+[~] Description: 
+[~] 
+Client-side scripts are used extensively by modern web applications.
+They perform from simple functions (such as the formatting of text) up to full
+manipulation of client-side data and Operating System interaction.
+
+Cross Site Scripting (XSS) allows clients to inject scripts into a request and
+have the server return the script to the client in the response. This occurs
+because the application is taking untrusted data (in this example, from the client)
+and reusing it without performing any validation or sanitisation.
+
+If the injected script is returned immediately this is known as reflected XSS.
+If the injected script is stored by the server and returned to any client visiting
+the affected page, then this is known as persistent XSS (also stored XSS).
+
+Arachni has discovered that it is possible to insert content directly into an HTML
+tag. For example `<INJECTION_HERE href=.......etc>` where `INJECTION_HERE`
+represents the location where the Arachni payload was detected.
+
+
+[~] http://cwe.mitre.org/data/definitions/79.html
+[~] References:
+[~]   ha.ckers - http://ha.ckers.org/xss.html
+[~]   Secunia - http://secunia.com/advisories/9716/
+[~]   WASC - http://projects.webappsec.org/w/page/13246920/Cross%20Site%20Scripting
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "\" arachni_xss_in_tag=\"fe8d5c923a576608afabe9c4c09a7f50\" blah=\""
+[~] Injected:  "12\" arachni_xss_in_tag=\"fe8d5c923a576608afabe9c4c09a7f50\" blah=\""
+[~] Proof:     "\" arachni_xss_in_tag=\"fe8d5c923a576608afabe9c4c09a7f50\" blah=\""
+
+[~] Referring page: http://testphp.vulnweb.com/hpp/
+
+[~] Affected page:  http://testphp.vulnweb.com/hpp/?pp=12%22%20arachni_xss_in_tag=%22fe8d5c923a576608afabe9c4c09a7f50%22%20blah=%22
+[~] HTTP request
+GET /hpp/?pp=12%22%20arachni_xss_in_tag%3D%22fe8d5c923a576608afabe9c4c09a7f50%22%20blah%3D%22 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [21] Blind SQL Injection (timing attack)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1554078949
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/userinfo.php
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: pass
+[~] All inputs: uname, pass
+
+[~] Tags: sql, blind, timing, injection, database
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to inject specific SQL queries,
+that if vulnerable, result in the responses for each request being delayed before
+being sent by the server.
+This is known as a time-based blind SQL injection vulnerability.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   OWASP - https://www.owasp.org/index.php/Blind_SQL_Injection
+[~]   MITRE - CAPEC - http://capec.mitre.org/data/definitions/7.html
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "' or sleep(16) # "
+[~] Injected:  "5543!%arachni_secret' or sleep(16) # "
+
+[~] Referring page: http://testphp.vulnweb.com/login.php
+
+[~] Affected page:  http://testphp.vulnweb.com/userinfo.php
+[~] HTTP request
+POST /userinfo.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Content-Length: 81
+Content-Type: application/x-www-form-urlencoded
+
+uname=arachni_name&pass=5543%21%25arachni_secret%27%20or%20sleep%2816%29%20%23%20
+
+[~] Remarks
+[~] -------
+[~]   By timing_attack:
+[~]     *  Delays (in seconds) used for each phase: 4.0, 8.0, 16.0
+[~]     *  Response times (in seconds) for control requests prior to phases 2 & 3:
+0.594511, 0.903557
+[~]     *  Response times (in seconds) for stabilization requests after each phase:
+1.183686, 1.255853, 1.17702
+
+
+[+] [22] Blind SQL Injection (timing attack)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     187400547
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/userinfo.php
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: uname
+[~] All inputs: uname, pass
+
+[~] Tags: sql, blind, timing, injection, database
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to inject specific SQL queries,
+that if vulnerable, result in the responses for each request being delayed before
+being sent by the server.
+This is known as a time-based blind SQL injection vulnerability.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   OWASP - https://www.owasp.org/index.php/Blind_SQL_Injection
+[~]   MITRE - CAPEC - http://capec.mitre.org/data/definitions/7.html
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "' or sleep(16) # "
+[~] Injected:  "arachni_name' or sleep(16) # "
+
+[~] Referring page: http://testphp.vulnweb.com/login.php
+
+[~] Affected page:  http://testphp.vulnweb.com/userinfo.php
+[~] HTTP request
+POST /userinfo.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Content-Length: 81
+Content-Type: application/x-www-form-urlencoded
+
+uname=arachni_name%27%20or%20sleep%2816%29%20%23%20&pass=5543%21%25arachni_secret
+
+[~] Remarks
+[~] -------
+[~]   By timing_attack:
+[~]     *  Delays (in seconds) used for each phase: 4.0, 8.0, 16.0
+[~]     *  Response times (in seconds) for control requests prior to phases 2 & 3:
+0.897649, 0.613343
+[~]     *  Response times (in seconds) for stabilization requests after each phase:
+1.171804, 1.16691, 1.165326
+
+
+[+] [23] Cross-Site Request Forgery
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     99923125
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/guestbook.php
+[~] Element:    form
+[~] All inputs: text, name, submit
+
+[~] Tags: csrf, rdiff, form, token
+
+[~] Description: 
+[~] 
+In the majority of today's web applications, clients are required to submit forms
+which can perform sensitive operations.
+
+An example of such a form being used would be when an administrator wishes to
+create a new user for the application.
+
+In the simplest version of the form, the administrator would fill-in:
+
+* Name
+* Password
+* Role (level of access)
+
+Continuing with this example, Cross Site Request Forgery (CSRF) would occur when
+the administrator is tricked into clicking on a link, which if logged into the
+application, would automatically submit the form without any further interaction.
+
+Cyber-criminals will look for sites where sensitive functions are performed in
+this manner and then craft malicious requests that will be used against clients
+via a social engineering attack.
+
+There are 3 things that are required for a CSRF attack to occur:
+
+1. The form must perform some sort of sensitive action.
+2. The victim (the administrator the example above) must have an active session.
+3. Most importantly, all parameter values must be **known** or **guessable**.
+
+Arachni discovered that all parameters within the form were known or predictable
+and therefore the form could be vulnerable to CSRF.
+
+_Manual verification may be required to check whether the submission will then
+perform a sensitive action, such as reset a password, modify user profiles, post
+content on a forum, etc._
+
+
+[~] http://cwe.mitre.org/data/definitions/352.html
+[~] References:
+[~]   Wikipedia - http://en.wikipedia.org/wiki/Cross-site_request_forgery
+[~]   OWASP - https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)
+[~]   CGI Security - http://www.cgisecurity.com/csrf-faq.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "<form action=\"\" method=\"post\" name=\"faddentry\">\r\n\t\t\t<input type=\"hidden\" name=\"name\" value=\"anonymous user\">\r\n\t\t\t<textarea name=\"text\" rows=\"5\" wrap=\"VIRTUAL\" style=\"width:500px;\"></textarea>\r\n\t\t\t<br>\r\n\t\t\t<input type=\"submit\" name=\"submit\" value=\"add message\">\r\n\t\t</form>"
+
+[~] Referring page: http://testphp.vulnweb.com/guestbook.php
+
+[~] Affected page:  http://testphp.vulnweb.com/guestbook.php
+[~] HTTP request
+GET /guestbook.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [24] Code injection (timing attack)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     3153436054
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/listproducts.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: cat
+[~] All inputs: cat
+
+[~] Tags: code, injection, timing, blind
+
+[~] Description: 
+[~] 
+A modern web application will be reliant on several different programming languages.
+
+These languages can be broken up in two flavours. These are client-side languages
+(such as those that run in the browser -- like JavaScript) and server-side
+languages (which are executed by the server -- like ASP, PHP, JSP, etc.) to form
+the dynamic pages (client-side code) that are then sent to the client.
+
+Because all server-side code should be executed by the server, it should only ever
+come from a trusted source.
+
+Code injection occurs when the server takes untrusted code (ie. from the client)
+and executes it.
+
+Cyber-criminals will abuse this weakness to execute arbitrary code on the server,
+which could result in complete server compromise.
+
+By injecting server-side code that is known to take a specific amount of time to
+execute, Arachni was able to detect time-based code injection. This indicates that
+proper input sanitisation is not occurring.
+
+
+[~] http://cwe.mitre.org/data/definitions/94.html
+[~] References:
+[~]   PHP - http://php.net/manual/en/function.eval.php
+[~]   Perl - http://perldoc.perl.org/functions/eval.html
+[~]   Python - http://docs.python.org/py3k/library/functions.html#eval
+[~]   ASP - http://www.aspdev.org/asp/asp-eval-execute/
+[~]   Ruby - http://en.wikipedia.org/wiki/Eval#Ruby
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      " sleep(16000/1000);"
+[~] Injected:  " sleep(16000/1000);"
+
+[~] Referring page: http://testphp.vulnweb.com/search.php?test=query
+
+[~] Affected page:  http://testphp.vulnweb.com/listproducts.php?cat=%20sleep(16000/1000);
+[~] HTTP request
+GET /listproducts.php?cat=%20sleep%2816000%2F1000%29%3B HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Remarks
+[~] -------
+[~]   By timing_attack:
+[~]     *  Delays (in seconds) used for each phase: 4.0, 8.0, 16.0
+[~]     *  Response times (in seconds) for control requests prior to phases 2 & 3:
+0.319576, 0.599877
+[~]     *  Response times (in seconds) for stabilization requests after each phase:
+0.571398, 0.575856, 0.606836
+
+
+[+] [25] Code injection (timing attack)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2126344285
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/artists.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: artist
+[~] All inputs: artist
+
+[~] Tags: code, injection, timing, blind
+
+[~] Description: 
+[~] 
+A modern web application will be reliant on several different programming languages.
+
+These languages can be broken up in two flavours. These are client-side languages
+(such as those that run in the browser -- like JavaScript) and server-side
+languages (which are executed by the server -- like ASP, PHP, JSP, etc.) to form
+the dynamic pages (client-side code) that are then sent to the client.
+
+Because all server-side code should be executed by the server, it should only ever
+come from a trusted source.
+
+Code injection occurs when the server takes untrusted code (ie. from the client)
+and executes it.
+
+Cyber-criminals will abuse this weakness to execute arbitrary code on the server,
+which could result in complete server compromise.
+
+By injecting server-side code that is known to take a specific amount of time to
+execute, Arachni was able to detect time-based code injection. This indicates that
+proper input sanitisation is not occurring.
+
+
+[~] http://cwe.mitre.org/data/definitions/94.html
+[~] References:
+[~]   PHP - http://php.net/manual/en/function.eval.php
+[~]   Perl - http://perldoc.perl.org/functions/eval.html
+[~]   Python - http://docs.python.org/py3k/library/functions.html#eval
+[~]   ASP - http://www.aspdev.org/asp/asp-eval-execute/
+[~]   Ruby - http://en.wikipedia.org/wiki/Eval#Ruby
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      " sleep(16000/1000);"
+[~] Injected:  " sleep(16000/1000);"
+
+[~] Referring page: http://testphp.vulnweb.com/search.php?test=query
+
+[~] Affected page:  http://testphp.vulnweb.com/artists.php?artist=%20sleep(16000/1000);
+[~] HTTP request
+GET /artists.php?artist=%20sleep%2816000%2F1000%29%3B HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Remarks
+[~] -------
+[~]   By timing_attack:
+[~]     *  Delays (in seconds) used for each phase: 4.0, 8.0, 16.0
+[~]     *  Response times (in seconds) for control requests prior to phases 2 & 3:
+0.304179, 0.593425
+[~]     *  Response times (in seconds) for stabilization requests after each phase:
+0.60275, 0.591217, 0.625574
+
+
+[+] [26] Code injection (timing attack)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1604278568
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/product.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: pic
+[~] All inputs: pic
+
+[~] Tags: code, injection, timing, blind
+
+[~] Description: 
+[~] 
+A modern web application will be reliant on several different programming languages.
+
+These languages can be broken up in two flavours. These are client-side languages
+(such as those that run in the browser -- like JavaScript) and server-side
+languages (which are executed by the server -- like ASP, PHP, JSP, etc.) to form
+the dynamic pages (client-side code) that are then sent to the client.
+
+Because all server-side code should be executed by the server, it should only ever
+come from a trusted source.
+
+Code injection occurs when the server takes untrusted code (ie. from the client)
+and executes it.
+
+Cyber-criminals will abuse this weakness to execute arbitrary code on the server,
+which could result in complete server compromise.
+
+By injecting server-side code that is known to take a specific amount of time to
+execute, Arachni was able to detect time-based code injection. This indicates that
+proper input sanitisation is not occurring.
+
+
+[~] http://cwe.mitre.org/data/definitions/94.html
+[~] References:
+[~]   PHP - http://php.net/manual/en/function.eval.php
+[~]   Perl - http://perldoc.perl.org/functions/eval.html
+[~]   Python - http://docs.python.org/py3k/library/functions.html#eval
+[~]   ASP - http://www.aspdev.org/asp/asp-eval-execute/
+[~]   Ruby - http://en.wikipedia.org/wiki/Eval#Ruby
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      " sleep(16000/1000);"
+[~] Injected:  " sleep(16000/1000);"
+
+[~] Referring page: http://testphp.vulnweb.com/search.php?test=query
+
+[~] Affected page:  http://testphp.vulnweb.com/product.php?pic=%20sleep(16000/1000);
+[~] HTTP request
+GET /product.php?pic=%20sleep%2816000%2F1000%29%3B HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Remarks
+[~] -------
+[~]   By timing_attack:
+[~]     *  Delays (in seconds) used for each phase: 4.0, 8.0, 16.0
+[~]     *  Response times (in seconds) for control requests prior to phases 2 & 3:
+0.301589, 0.612848
+[~]     *  Response times (in seconds) for stabilization requests after each phase:
+0.59847, 0.594686, 0.625051
+
+
+[+] [27] Blind SQL Injection (timing attack)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1826337468
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/listproducts.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: cat
+[~] All inputs: cat
+
+[~] Tags: sql, blind, timing, injection, database
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to inject specific SQL queries,
+that if vulnerable, result in the responses for each request being delayed before
+being sent by the server.
+This is known as a time-based blind SQL injection vulnerability.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   OWASP - https://www.owasp.org/index.php/Blind_SQL_Injection
+[~]   MITRE - CAPEC - http://capec.mitre.org/data/definitions/7.html
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      " and sleep(16)"
+[~] Injected:  "1 and sleep(16)"
+
+[~] Referring page: http://testphp.vulnweb.com/search.php?test=query
+
+[~] Affected page:  http://testphp.vulnweb.com/listproducts.php?cat=1%20and%20sleep(16)
+[~] HTTP request
+GET /listproducts.php?cat=1%20and%20sleep%2816%29 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Remarks
+[~] -------
+[~]   By timing_attack:
+[~]     *  Delays (in seconds) used for each phase: 4.0, 8.0, 16.0
+[~]     *  Response times (in seconds) for control requests prior to phases 2 & 3:
+0.553898, 0.595225
+[~]     *  Response times (in seconds) for stabilization requests after each phase:
+0.634086, 0.596392, 0.649963
+
+
+[+] [28] Blind SQL Injection (timing attack)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1511927466
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/artists.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: artist
+[~] All inputs: artist
+
+[~] Tags: sql, blind, timing, injection, database
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to inject specific SQL queries,
+that if vulnerable, result in the responses for each request being delayed before
+being sent by the server.
+This is known as a time-based blind SQL injection vulnerability.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   OWASP - https://www.owasp.org/index.php/Blind_SQL_Injection
+[~]   MITRE - CAPEC - http://capec.mitre.org/data/definitions/7.html
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      " and sleep(16)"
+[~] Injected:  "1 and sleep(16)"
+
+[~] Referring page: http://testphp.vulnweb.com/search.php?test=query
+
+[~] Affected page:  http://testphp.vulnweb.com/artists.php?artist=1%20and%20sleep(16)
+[~] HTTP request
+GET /artists.php?artist=1%20and%20sleep%2816%29 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Remarks
+[~] -------
+[~]   By timing_attack:
+[~]     *  Delays (in seconds) used for each phase: 4.0, 8.0, 16.0
+[~]     *  Response times (in seconds) for control requests prior to phases 2 & 3:
+0.603098, 0.590172
+[~]     *  Response times (in seconds) for stabilization requests after each phase:
+0.596437, 0.606361, 0.585781
+
+
+[+] [29] Blind SQL Injection (timing attack)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1871349324
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/product.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: pic
+[~] All inputs: pic
+
+[~] Tags: sql, blind, timing, injection, database
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to inject specific SQL queries,
+that if vulnerable, result in the responses for each request being delayed before
+being sent by the server.
+This is known as a time-based blind SQL injection vulnerability.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   OWASP - https://www.owasp.org/index.php/Blind_SQL_Injection
+[~]   MITRE - CAPEC - http://capec.mitre.org/data/definitions/7.html
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      " and sleep(16)"
+[~] Injected:  "1 and sleep(16)"
+
+[~] Referring page: http://testphp.vulnweb.com/search.php?test=query
+
+[~] Affected page:  http://testphp.vulnweb.com/product.php?pic=1%20and%20sleep(16)
+[~] HTTP request
+GET /product.php?pic=1%20and%20sleep%2816%29 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Remarks
+[~] -------
+[~]   By timing_attack:
+[~]     *  Delays (in seconds) used for each phase: 4.0, 8.0, 16.0
+[~]     *  Response times (in seconds) for control requests prior to phases 2 & 3:
+0.583664, 0.317938
+[~]     *  Response times (in seconds) for stabilization requests after each phase:
+0.608537, 0.583307, 0.591767
+
+
+[+] [30] File Inclusion
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1715231859
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/showimage.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: file
+[~] All inputs: file
+
+[~] Tags: file, inclusion, error, injection, regexp
+
+[~] Description: 
+[~] 
+Web applications occasionally use parameter values to store the location of a file
+which will later be required by the server.
+
+An example of this is often seen in error pages, where the actual file path for
+the error page is stored in a parameter value -- for example `example.com/error.php?page=404.php`.
+
+A file inclusion occurs when the parameter value (ie. path to file) can be
+substituted with the path of another resource on the same server, effectively
+allowing the displaying of arbitrary, and possibly restricted/sensitive, files.
+
+Arachni discovered that it was possible to substitute a parameter value with another
+resource and have the server return the contents of the resource to the client within
+the response.
+
+
+[~] http://cwe.mitre.org/data/definitions/98.html
+[~] References:
+[~]   OWASP - https://www.owasp.org/index.php/PHP_File_Inclusion
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "file://\\WEB-INF\\web.xml"
+[~] Injected:  "file://\\WEB-INF\\web.xml"
+[~] Signature: failed to open stream:
+[~] Proof:     "failed to open stream:"
+
+[~] Referring page: http://testphp.vulnweb.com/search.php?test=query
+
+[~] Affected page:  http://testphp.vulnweb.com/showimage.php?file=file://%5CWEB-INF%5Cweb.xml
+[~] HTTP request
+GET /showimage.php?file=file%3A%2F%2F%5CWEB-INF%5Cweb.xml HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [31] SQL Injection
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     812301024
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/listproducts.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: cat
+[~] All inputs: cat
+
+[~] Tags: sql, injection, regexp, database, error
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to cause the server to respond to
+the request with a database related error.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   UnixWiz - http://unixwiz.net/techtips/sql-injection.html
+[~]   Wikipedia - http://en.wikipedia.org/wiki/SQL_injection
+[~]   SecuriTeam - http://www.securiteam.com/securityreviews/5DP0N1P76E.html
+[~]   OWASP - https://www.owasp.org/index.php/SQL_Injection
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      ")"
+[~] Injected:  "1)"
+[~] Signature: Warning.*mysql_.*
+[~] Proof:     "Warning: mysql_fetch_array() expects parameter 1 to be resource, boolean given in /hj/var/www/listproducts.php on line 74"
+
+[~] Referring page: http://testphp.vulnweb.com/search.php?test=query
+
+[~] Affected page:  http://testphp.vulnweb.com/listproducts.php?cat=1)
+[~] HTTP request
+GET /listproducts.php?cat=1%29 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [32] SQL Injection
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2797943845
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/search.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: test
+[~] All inputs: test
+
+[~] Tags: sql, injection, regexp, database, error
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to cause the server to respond to
+the request with a database related error.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   UnixWiz - http://unixwiz.net/techtips/sql-injection.html
+[~]   Wikipedia - http://en.wikipedia.org/wiki/SQL_injection
+[~]   SecuriTeam - http://www.securiteam.com/securityreviews/5DP0N1P76E.html
+[~]   OWASP - https://www.owasp.org/index.php/SQL_Injection
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "\"'`--"
+[~] Injected:  "query\"'`--"
+[~] Signature: Warning.*mysql_.*
+[~] Proof:     "Warning: mysql_fetch_array() expects parameter 1 to be resource, boolean given in /hj/var/www/search.php on line 61"
+
+[~] Referring page: http://testphp.vulnweb.com/search.php?test=query
+
+[~] Affected page:  http://testphp.vulnweb.com/search.php?test=query%22%27%60--
+[~] HTTP request
+GET /search.php?test=query%22%27%60-- HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [33] SQL Injection
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     4068912693
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/product.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: pic
+[~] All inputs: pic
+
+[~] Tags: sql, injection, regexp, database, error
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to cause the server to respond to
+the request with a database related error.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   UnixWiz - http://unixwiz.net/techtips/sql-injection.html
+[~]   Wikipedia - http://en.wikipedia.org/wiki/SQL_injection
+[~]   SecuriTeam - http://www.securiteam.com/securityreviews/5DP0N1P76E.html
+[~]   OWASP - https://www.owasp.org/index.php/SQL_Injection
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "\"'`--"
+[~] Injected:  "1\"'`--"
+[~] Signature: Warning.*mysql_.*
+[~] Proof:     "Warning: mysql_fetch_array() expects parameter 1 to be resource, boolean given in /hj/var/www/product.php on line 70"
+
+[~] Referring page: http://testphp.vulnweb.com/search.php?test=query
+
+[~] Affected page:  http://testphp.vulnweb.com/product.php?pic=1%22%27%60--
+[~] HTTP request
+GET /product.php?pic=1%22%27%60-- HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [34] SQL Injection
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1440063337
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/artists.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: artist
+[~] All inputs: artist
+
+[~] Tags: sql, injection, regexp, database, error
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to cause the server to respond to
+the request with a database related error.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   UnixWiz - http://unixwiz.net/techtips/sql-injection.html
+[~]   Wikipedia - http://en.wikipedia.org/wiki/SQL_injection
+[~]   SecuriTeam - http://www.securiteam.com/securityreviews/5DP0N1P76E.html
+[~]   OWASP - https://www.owasp.org/index.php/SQL_Injection
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      ")"
+[~] Injected:  "1)"
+[~] Signature: Warning.*mysql_.*
+[~] Proof:     "Warning: mysql_fetch_array() expects parameter 1 to be resource, boolean given in /hj/var/www/artists.php on line 62"
+
+[~] Referring page: http://testphp.vulnweb.com/search.php?test=query
+
+[~] Affected page:  http://testphp.vulnweb.com/artists.php?artist=1)
+[~] HTTP request
+GET /artists.php?artist=1%29 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [35] Remote File Inclusion
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     3359344085
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/showimage.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: file
+[~] All inputs: file
+
+[~] Tags: remote, file, inclusion, injection, regexp
+
+[~] Description: 
+[~] 
+Web applications occasionally use parameter values to store the location of a file
+which will later be required by the server.
+
+An example of this is often seen in error pages, where the actual file path for
+the error page is stored in a parameter value -- for example `example.com/error.php?page=404.php`.
+
+A remote file inclusion occurs when the parameter value (ie. path to file being
+called by the server) can be substituted with the address of remote resource --
+for example: `yoursite.com/error.asp?page=http://anothersite.com/somethingBad.php`
+
+In some cases, the server will process the fetched resource; therefore,
+if the resource contains server-side code matching that of the framework being
+used (ASP, PHP, JSP, etc.), it is probable that the resource will be executed
+as if it were part of the web application.
+
+Arachni discovered that it was possible to substitute a parameter value with an
+external resource and have the server fetch it and include its contents in the response.
+
+
+[~] http://cwe.mitre.org/data/definitions/94.html
+[~] References:
+[~]   WASC - http://projects.webappsec.org/Remote-File-Inclusion
+[~]   Wikipedia - http://en.wikipedia.org/wiki/Remote_File_Inclusion
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "hTtP://tests.arachni-scanner.com/rfi.md5.txt"
+[~] Injected:  "hTtP://tests.arachni-scanner.com/rfi.md5.txt"
+[~] Signature: 705cd559b16e6946826207c2199bd890
+[~] Proof:     "705cd559b16e6946826207c2199bd890"
+
+[~] Referring page: http://testphp.vulnweb.com/search.php?test=query
+
+[~] Affected page:  http://testphp.vulnweb.com/showimage.php?file=hTtP://tests.arachni-scanner.com/rfi.md5.txt
+[~] HTTP request
+GET /showimage.php?file=hTtP%3A%2F%2Ftests.arachni-scanner.com%2Frfi.md5.txt HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [36] Cross-Site Scripting (XSS)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1523242874
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/listproducts.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: cat
+[~] All inputs: cat
+
+[~] Tags: xss, regexp, injection, script
+
+[~] Description: 
+[~] 
+Client-side scripts are used extensively by modern web applications.
+They perform from simple functions (such as the formatting of text) up to full
+manipulation of client-side data and Operating System interaction.
+
+Cross Site Scripting (XSS) allows clients to inject scripts into a request and
+have the server return the script to the client in the response. This occurs
+because the application is taking untrusted data (in this example, from the client)
+and reusing it without performing any validation or sanitisation.
+
+If the injected script is returned immediately this is known as reflected XSS.
+If the injected script is stored by the server and returned to any client visiting
+the affected page, then this is known as persistent XSS (also stored XSS).
+
+Arachni has discovered that it is possible to insert script content directly into
+HTML element content.
+
+
+[~] http://cwe.mitre.org/data/definitions/79.html
+[~] References:
+[~]   ha.ckers - http://ha.ckers.org/xss.html
+[~]   Secunia - http://secunia.com/advisories/9716/
+[~]   WASC - http://projects.webappsec.org/w/page/13246920/Cross%20Site%20Scripting
+[~]   OWASP - https://www.owasp.org/index.php/XSS_%28Cross_Site_Scripting%29_Prevention_Cheat_Sheet
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "()\"&%1'-;<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>'"
+[~] Injected:  "1()\"&%1'-;<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>'"
+[~] Proof:     "<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+
+[~] Referring page: http://testphp.vulnweb.com/search.php?test=query
+
+[~] Affected page:  http://testphp.vulnweb.com/listproducts.php?cat=1()%22%26%251%27-;%3Csome_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/%3E%27
+[~] HTTP request
+GET /listproducts.php?cat=1%28%29%22%26%251%27-%3B%3Csome_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50%2F%3E%27 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [37] Cross-Site Scripting (XSS)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     721777312
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/showimage.php
+[~] Element:    link
+[~] Method:     GET
+[~] Input name: file
+[~] All inputs: file
+
+[~] Tags: xss, regexp, injection, script
+
+[~] Description: 
+[~] 
+Client-side scripts are used extensively by modern web applications.
+They perform from simple functions (such as the formatting of text) up to full
+manipulation of client-side data and Operating System interaction.
+
+Cross Site Scripting (XSS) allows clients to inject scripts into a request and
+have the server return the script to the client in the response. This occurs
+because the application is taking untrusted data (in this example, from the client)
+and reusing it without performing any validation or sanitisation.
+
+If the injected script is returned immediately this is known as reflected XSS.
+If the injected script is stored by the server and returned to any client visiting
+the affected page, then this is known as persistent XSS (also stored XSS).
+
+Arachni has discovered that it is possible to insert script content directly into
+HTML element content.
+
+
+[~] http://cwe.mitre.org/data/definitions/79.html
+[~] References:
+[~]   ha.ckers - http://ha.ckers.org/xss.html
+[~]   Secunia - http://secunia.com/advisories/9716/
+[~]   WASC - http://projects.webappsec.org/w/page/13246920/Cross%20Site%20Scripting
+[~]   OWASP - https://www.owasp.org/index.php/XSS_%28Cross_Site_Scripting%29_Prevention_Cheat_Sheet
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "()\"&%1'-;<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>'"
+[~] Injected:  "./pictures/1.jpg()\"&%1'-;<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>'"
+[~] Proof:     "<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+
+[~] Referring page: http://testphp.vulnweb.com/search.php?test=query
+
+[~] Affected page:  http://testphp.vulnweb.com/showimage.php?file=./pictures/1.jpg()%22%26%251%27-;%3Csome_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/%3E%27
+[~] HTTP request
+GET /showimage.php?file=.%2Fpictures%2F1.jpg%28%29%22%26%251%27-%3B%3Csome_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50%2F%3E%27 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [38] Blind SQL Injection (timing attack)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     3753415297
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/search.php?test=query
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: searchFor
+[~] All inputs: searchFor, goButton
+
+[~] Tags: sql, blind, timing, injection, database
+
+[~] Description: 
+[~] 
+Due to the requirement for dynamic content of today's web applications, many
+rely on a database backend to store data that will be called upon and processed
+by the web application (or other programs).
+Web applications retrieve data from the database by using Structured Query Language
+(SQL) queries.
+
+To meet demands of many developers, database servers (such as MSSQL, MySQL,
+Oracle etc.) have additional built-in functionality that can allow extensive
+control of the database and interaction with the host operating system itself.
+
+An SQL injection occurs when a value originating from the client's request is used
+within a SQL query without prior sanitisation. This could allow cyber-criminals
+to execute arbitrary SQL code and steal data or use the additional functionality
+of the database server to take control of more server components.
+
+The successful exploitation of a SQL injection can be devastating to an
+organisation and is one of the most commonly exploited web application vulnerabilities.
+
+This injection was detected as Arachni was able to inject specific SQL queries,
+that if vulnerable, result in the responses for each request being delayed before
+being sent by the server.
+This is known as a time-based blind SQL injection vulnerability.
+
+
+[~] http://cwe.mitre.org/data/definitions/89.html
+[~] References:
+[~]   OWASP - https://www.owasp.org/index.php/Blind_SQL_Injection
+[~]   MITRE - CAPEC - http://capec.mitre.org/data/definitions/7.html
+[~]   WASC - http://projects.webappsec.org/w/page/13246963/SQL%20Injection
+[~]   W3 Schools - http://www.w3schools.com/sql/sql_injection.asp
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "' and sleep(16)='"
+[~] Injected:  "1' and sleep(16)='"
+
+[~] Referring page: http://testphp.vulnweb.com/
+
+[~] Affected page:  http://testphp.vulnweb.com/search.php?test=query
+[~] HTTP request
+POST /search.php?test=query HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Content-Length: 54
+Content-Type: application/x-www-form-urlencoded
+
+searchFor=1%27%20and%20sleep%2816%29%3D%27&goButton=go
+
+[~] Remarks
+[~] -------
+[~]   By timing_attack:
+[~]     *  Delays (in seconds) used for each phase: 4.0, 8.0, 16.0
+[~]     *  Response times (in seconds) for control requests prior to phases 2 & 3:
+0.308833, 0.297063
+[~]     *  Response times (in seconds) for stabilization requests after each phase:
+0.590049, 0.583683, 0.605451
+
+
+[+] [39] Cross-Site Scripting (XSS)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2911495265
+[~] Severity:   High
+
+[~] URL:        http://testphp.vulnweb.com/search.php?test=query
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: searchFor
+[~] All inputs: searchFor, goButton
+
+[~] Tags: xss, regexp, injection, script
+
+[~] Description: 
+[~] 
+Client-side scripts are used extensively by modern web applications.
+They perform from simple functions (such as the formatting of text) up to full
+manipulation of client-side data and Operating System interaction.
+
+Cross Site Scripting (XSS) allows clients to inject scripts into a request and
+have the server return the script to the client in the response. This occurs
+because the application is taking untrusted data (in this example, from the client)
+and reusing it without performing any validation or sanitisation.
+
+If the injected script is returned immediately this is known as reflected XSS.
+If the injected script is stored by the server and returned to any client visiting
+the affected page, then this is known as persistent XSS (also stored XSS).
+
+Arachni has discovered that it is possible to insert script content directly into
+HTML element content.
+
+
+[~] http://cwe.mitre.org/data/definitions/79.html
+[~] References:
+[~]   ha.ckers - http://ha.ckers.org/xss.html
+[~]   Secunia - http://secunia.com/advisories/9716/
+[~]   WASC - http://projects.webappsec.org/w/page/13246920/Cross%20Site%20Scripting
+[~]   OWASP - https://www.owasp.org/index.php/XSS_%28Cross_Site_Scripting%29_Prevention_Cheat_Sheet
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      "<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+[~] Injected:  "1<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+[~] Proof:     "<some_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50/>"
+
+[~] Referring page: http://testphp.vulnweb.com/
+
+[~] Affected page:  http://testphp.vulnweb.com/search.php?test=query
+[~] HTTP request
+POST /search.php?test=query HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Content-Length: 85
+Content-Type: application/x-www-form-urlencoded
+
+searchFor=1%3Csome_dangerous_input_fe8d5c923a576608afabe9c4c09a7f50%2F%3E&goButton=go
+
+[+] [40] Unencrypted password form
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2647215938
+[~] Severity:   Medium
+
+[~] URL:        http://testphp.vulnweb.com/secured/newuser.php
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: upass
+[~] All inputs: uaddress, uuname, upass, upass2, urname, ucc, uemail, uphone, signup
+
+[~] Tags: unencrypted, password, form
+
+[~] Description: 
+[~] 
+The HTTP protocol by itself is clear text, meaning that any data that is
+transmitted via HTTP can be captured and the contents viewed.
+
+To keep data private, and prevent it from being intercepted, HTTP is often
+tunnelled through either Secure Sockets Layer (SSL), or Transport Layer Security
+(TLS).
+When either of these encryption standards are used it is referred to as HTTPS.
+
+Cyber-criminals will often attempt to compromise credentials passed from the
+client to the server using HTTP.
+This can be conducted via various different Man-in-The-Middle (MiTM) attacks or
+through network packet captures.
+
+Arachni discovered that the affected page contains a `password` input, however,
+the value of the field is not sent to the server utilising HTTPS. Therefore it
+is possible that any submitted credential may become compromised.
+
+
+[~] http://cwe.mitre.org/data/definitions/319.html
+[~] References:
+[~]   OWASP Top 10 2010 - http://www.owasp.org/index.php/Top_10_2010-A9-Insufficient_Transport_Layer_Protection
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      nil
+[~] Injected:  ""
+[~] Proof:     "<form name=\"form1\" method=\"post\" action=\"/secured/newuser.php\">\r\n\t\t<table border=\"0\" cellspacing=\"1\" cellpadding=\"4\">\r\n\t\t\t<tr>\n<td valign=\"top\">Username:</td>\n<td><input type=\"text\" name=\"uuname\" style=\"width:200px\"></td>\n</tr>\r\n\t\t\t<tr>\n<td valign=\"top\">Password:</td>\n<td><input type=\"password\" name=\"upass\" style=\"width:200px\"></td>\n</tr>\r\n\t\t\t<tr>\n<td valign=\"top\">Retype password:</td>\n<td><input type=\"password\" name=\"upass2\" style=\"width:200px\"></td>\n</tr>\r\n\t\t\t<tr>\n<td valign=\"top\">Name:</td>\n<td><input type=\"text\" name=\"urname\" style=\"width:200px\"></td>\n</tr>\r\n\t\t\t<tr>\n<td valign=\"top\">Credit card number:</td>\n<td><input type=\"text\" name=\"ucc\" style=\"width:200px\"></td>\n</tr>\r\n\t\t\t<tr>\n<td valign=\"top\">E-Mail:</td>\n<td><input type=\"text\" name=\"uemail\" style=\"width:200px\"></td>\n</tr>\r\n\t\t\t<tr>\n<td valign=\"top\">Phone number:</td>\n<td><input type=\"text\" name=\"uphone\" style=\"width:200px\"></td>\n</tr>\r\n\t\t\t<tr>\n<td valign=\"top\">Address:</td>\n<td><textarea wrap=\"soft\" name=\"uaddress\" rows=\"5\" style=\"width:200px\"></textarea></td>\n</tr>\r\n\t\t\t<tr><td colspan=\"2\" align=\"right\"><input type=\"submit\" value=\"signup\" name=\"signup\"></td></tr>\r\n\t\t</table>\r\n\t</form>"
+
+[~] Referring page: http://testphp.vulnweb.com/signup.php
+
+[~] Affected page:  http://testphp.vulnweb.com/signup.php
+[~] HTTP request
+GET /signup.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [41] Unencrypted password form
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     3871770394
+[~] Severity:   Medium
+
+[~] URL:        http://testphp.vulnweb.com/userinfo.php
+[~] Element:    form
+[~] Method:     POST
+[~] Input name: pass
+[~] All inputs: uname, pass
+
+[~] Tags: unencrypted, password, form
+
+[~] Description: 
+[~] 
+The HTTP protocol by itself is clear text, meaning that any data that is
+transmitted via HTTP can be captured and the contents viewed.
+
+To keep data private, and prevent it from being intercepted, HTTP is often
+tunnelled through either Secure Sockets Layer (SSL), or Transport Layer Security
+(TLS).
+When either of these encryption standards are used it is referred to as HTTPS.
+
+Cyber-criminals will often attempt to compromise credentials passed from the
+client to the server using HTTP.
+This can be conducted via various different Man-in-The-Middle (MiTM) attacks or
+through network packet captures.
+
+Arachni discovered that the affected page contains a `password` input, however,
+the value of the field is not sent to the server utilising HTTPS. Therefore it
+is possible that any submitted credential may become compromised.
+
+
+[~] http://cwe.mitre.org/data/definitions/319.html
+[~] References:
+[~]   OWASP Top 10 2010 - http://www.owasp.org/index.php/Top_10_2010-A9-Insufficient_Transport_Layer_Protection
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Seed:      nil
+[~] Injected:  ""
+[~] Proof:     "<form name=\"loginform\" method=\"post\" action=\"userinfo.php\">\r\n\t<table cellpadding=\"4\" cellspacing=\"1\">\r\n\t\t<tr>\n<td>Username : </td>\n<td><input name=\"uname\" type=\"text\" size=\"20\" style=\"width:120px;\"></td>\n</tr>\r\n\t\t<tr>\n<td>Password : </td>\n<td><input name=\"pass\" type=\"password\" size=\"20\" style=\"width:120px;\"></td>\n</tr>\r\n\t\t<tr><td colspan=\"2\" align=\"right\"><input type=\"submit\" value=\"login\" style=\"width:75px;\"></td></tr>\r\n\t</table>\r\n\t</form>"
+
+[~] Referring page: http://testphp.vulnweb.com/login.php
+
+[~] Affected page:  http://testphp.vulnweb.com/login.php
+[~] HTTP request
+GET /login.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [42] Backup file
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1831684343
+[~] Severity:   Medium
+
+[~] URL:        http://testphp.vulnweb.com/index.bak
+[~] Element:    server
+
+[~] Tags: path, backup, file, discovery
+
+[~] Description: 
+[~] 
+A common practice when administering web applications is to create a copy/backup
+of a particular file or directory prior to making any modification to the file.
+Another common practice is to add an extension or change the name of the original
+file to signify that it is a backup (examples include `.bak`, `.orig`, `.backup`,
+etc.).
+
+During the initial recon stages of an attack, cyber-criminals will attempt to
+locate backup files by adding common extensions onto files already discovered on
+the webserver. By analysing the response headers from the server they are able to
+determine if the backup file exists.
+These backup files can then assist in the compromise of the web application.
+
+By utilising the same method, Arachni was able to discover a possible backup file.
+
+
+[~] http://cwe.mitre.org/data/definitions/530.html
+[~] References:
+[~]   WebAppSec - http://www.webappsec.org/projects/threat/classes/information_leakage.shtml
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Untrusted):
+[~] Proof:     "HTTP/1.1 200 OK"
+
+[~] Referring page: http://testphp.vulnweb.com/index.php
+
+[~] Affected page:  http://testphp.vulnweb.com/index.bak
+[~] HTTP request
+GET /index.bak HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Remarks
+[~] -------
+[~]   By meta_analysis:
+[~]     *  This issue was logged by a discovery check but the response for the resource it
+identified is very similar to responses for other resources of similar type.
+This is a strong indication that the logged issue is a false positive.
+
+
+[+] [43] Backup file
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1034222043
+[~] Severity:   Medium
+
+[~] URL:        http://testphp.vulnweb.com/index.zip
+[~] Element:    server
+
+[~] Tags: path, backup, file, discovery
+
+[~] Description: 
+[~] 
+A common practice when administering web applications is to create a copy/backup
+of a particular file or directory prior to making any modification to the file.
+Another common practice is to add an extension or change the name of the original
+file to signify that it is a backup (examples include `.bak`, `.orig`, `.backup`,
+etc.).
+
+During the initial recon stages of an attack, cyber-criminals will attempt to
+locate backup files by adding common extensions onto files already discovered on
+the webserver. By analysing the response headers from the server they are able to
+determine if the backup file exists.
+These backup files can then assist in the compromise of the web application.
+
+By utilising the same method, Arachni was able to discover a possible backup file.
+
+
+[~] http://cwe.mitre.org/data/definitions/530.html
+[~] References:
+[~]   WebAppSec - http://www.webappsec.org/projects/threat/classes/information_leakage.shtml
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Untrusted):
+[~] Proof:     "HTTP/1.1 200 OK"
+
+[~] Referring page: http://testphp.vulnweb.com/index.php
+
+[~] Affected page:  http://testphp.vulnweb.com/index.zip
+[~] HTTP request
+GET /index.zip HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Remarks
+[~] -------
+[~]   By meta_analysis:
+[~]     *  This issue was logged by a discovery check but the response for the resource it
+identified is very similar to responses for other resources of similar type.
+This is a strong indication that the logged issue is a false positive.
+
+
+[+] [44] Common directory
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     302345844
+[~] Severity:   Medium
+
+[~] URL:        http://testphp.vulnweb.com/secured/
+[~] Element:    server
+
+[~] Tags: path, directory, common, discovery
+
+[~] Description: 
+[~] 
+Web applications are often made up of multiple files and directories.
+
+It is possible that over time some directories may become unreferenced (unused)
+by the web application and forgotten about by the administrator/developer.
+Because web applications are built using common frameworks, they contain common
+directories that can be discovered (independent of server).
+
+During the initial recon stages of an attack, cyber-criminals will attempt to
+locate unreferenced directories in the hope that the directory will assist in further
+compromise of the web application.
+To achieve this they will make thousands of requests using word lists containing
+common names.
+The response headers from the server will then indicate if the directory exists.
+
+Arachni also contains a list of common directory names which it will attempt to access.
+
+
+[~] http://cwe.mitre.org/data/definitions/538.html
+[~] References:
+[~]   CWE - http://cwe.mitre.org/data/definitions/538.html
+[~]   OWASP - https://www.owasp.org/index.php/Forced_browsing
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Untrusted):
+[~] Proof:     "HTTP/1.1 200 OK"
+
+[~] Referring page: http://testphp.vulnweb.com/
+
+[~] Affected page:  http://testphp.vulnweb.com/secured/
+[~] HTTP request
+GET /secured/ HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Remarks
+[~] -------
+[~]   By meta_analysis:
+[~]     *  This issue was logged by a discovery check but the response for the resource it
+identified is very similar to responses for other resources of similar type.
+This is a strong indication that the logged issue is a false positive.
+
+
+[+] [45] Common sensitive file
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     4125825809
+[~] Severity:   Low
+
+[~] URL:        http://testphp.vulnweb.com/secured/phpinfo.php
+[~] Element:    server
+
+[~] Tags: common, path, file, discovery
+
+[~] Description: 
+[~] 
+Web applications are often made up of multiple files and directories.
+
+It is possible that over time some files may become unreferenced (unused)
+by the web application and forgotten about by the administrator/developer.
+Because web applications are built using common frameworks, they contain common
+files that can be discovered (independent of server).
+
+During the initial recon stages of an attack, cyber-criminals will attempt to
+locate unreferenced files in the hope that the file will assist in further
+compromise of the web application.
+To achieve this they will make thousands of requests using word lists containing
+common filenames.
+The response headers from the server will then indicate if the file exists.
+
+Arachni also contains a list of common file names which it will attempt to access.
+
+[~] References:
+[~]   Apache.org - http://httpd.apache.org/docs/2.0/mod/mod_access.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Untrusted):
+[~] Proof:     "HTTP/1.1 200 OK"
+
+[~] Referring page: http://testphp.vulnweb.com/secured/newuser.php
+
+[~] Affected page:  http://testphp.vulnweb.com/secured/phpinfo.php
+[~] HTTP request
+GET /secured/phpinfo.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Remarks
+[~] -------
+[~]   By meta_analysis:
+[~]     *  This issue was logged by a discovery check but the response for the resource it
+identified is very similar to responses for other resources of similar type.
+This is a strong indication that the logged issue is a false positive.
+
+
+[+] [46] Password field with auto-complete
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     3776003056
+[~] Severity:   Low
+
+[~] URL:        http://testphp.vulnweb.com/secured/newuser.php
+[~] Element:    form
+[~] All inputs: uaddress, uuname, upass, upass2, urname, ucc, uemail, uphone, signup
+
+[~] Tags: 
+
+[~] Description: 
+[~] 
+In typical form-based web applications, it is common practice for developers to
+allow `autocomplete` within the HTML form to improve the usability of the page.
+With `autocomplete` enabled (default), the browser is allowed to cache previously
+entered form values.
+
+For legitimate purposes, this allows the user to quickly re-enter the same data
+when completing the form multiple times.
+
+When `autocomplete` is enabled on either/both the username and password fields,
+this could allow a cyber-criminal with access to the victim's computer the ability
+to have the victim's credentials automatically entered as the cyber-criminal
+visits the affected page.
+
+Arachni has discovered that the affected page contains a form containing a
+password field that has not disabled `autocomplete`.
+
+[~] References:
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "<form name=\"form1\" method=\"post\" action=\"/secured/newuser.php\">\r\n\t\t<table border=\"0\" cellspacing=\"1\" cellpadding=\"4\">\r\n\t\t\t<tr>\n<td valign=\"top\">Username:</td>\n<td><input type=\"text\" name=\"uuname\" style=\"width:200px\"></td>\n</tr>\r\n\t\t\t<tr>\n<td valign=\"top\">Password:</td>\n<td><input type=\"password\" name=\"upass\" style=\"width:200px\"></td>\n</tr>\r\n\t\t\t<tr>\n<td valign=\"top\">Retype password:</td>\n<td><input type=\"password\" name=\"upass2\" style=\"width:200px\"></td>\n</tr>\r\n\t\t\t<tr>\n<td valign=\"top\">Name:</td>\n<td><input type=\"text\" name=\"urname\" style=\"width:200px\"></td>\n</tr>\r\n\t\t\t<tr>\n<td valign=\"top\">Credit card number:</td>\n<td><input type=\"text\" name=\"ucc\" style=\"width:200px\"></td>\n</tr>\r\n\t\t\t<tr>\n<td valign=\"top\">E-Mail:</td>\n<td><input type=\"text\" name=\"uemail\" style=\"width:200px\"></td>\n</tr>\r\n\t\t\t<tr>\n<td valign=\"top\">Phone number:</td>\n<td><input type=\"text\" name=\"uphone\" style=\"width:200px\"></td>\n</tr>\r\n\t\t\t<tr>\n<td valign=\"top\">Address:</td>\n<td><textarea wrap=\"soft\" name=\"uaddress\" rows=\"5\" style=\"width:200px\"></textarea></td>\n</tr>\r\n\t\t\t<tr><td colspan=\"2\" align=\"right\"><input type=\"submit\" value=\"signup\" name=\"signup\"></td></tr>\r\n\t\t</table>\r\n\t</form>"
+
+[~] Referring page: http://testphp.vulnweb.com/signup.php
+
+[~] Affected page:  http://testphp.vulnweb.com/signup.php
+[~] HTTP request
+GET /signup.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [47] Password field with auto-complete
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2767749455
+[~] Severity:   Low
+
+[~] URL:        http://testphp.vulnweb.com/userinfo.php
+[~] Element:    form
+[~] All inputs: uname, pass
+
+[~] Tags: 
+
+[~] Description: 
+[~] 
+In typical form-based web applications, it is common practice for developers to
+allow `autocomplete` within the HTML form to improve the usability of the page.
+With `autocomplete` enabled (default), the browser is allowed to cache previously
+entered form values.
+
+For legitimate purposes, this allows the user to quickly re-enter the same data
+when completing the form multiple times.
+
+When `autocomplete` is enabled on either/both the username and password fields,
+this could allow a cyber-criminal with access to the victim's computer the ability
+to have the victim's credentials automatically entered as the cyber-criminal
+visits the affected page.
+
+Arachni has discovered that the affected page contains a form containing a
+password field that has not disabled `autocomplete`.
+
+[~] References:
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "<form name=\"loginform\" method=\"post\" action=\"userinfo.php\">\r\n\t<table cellpadding=\"4\" cellspacing=\"1\">\r\n\t\t<tr>\n<td>Username : </td>\n<td><input name=\"uname\" type=\"text\" size=\"20\" style=\"width:120px;\"></td>\n</tr>\r\n\t\t<tr>\n<td>Password : </td>\n<td><input name=\"pass\" type=\"password\" size=\"20\" style=\"width:120px;\"></td>\n</tr>\r\n\t\t<tr><td colspan=\"2\" align=\"right\"><input type=\"submit\" value=\"login\" style=\"width:75px;\"></td></tr>\r\n\t</table>\r\n\t</form>"
+
+[~] Referring page: http://testphp.vulnweb.com/login.php
+
+[~] Affected page:  http://testphp.vulnweb.com/login.php
+[~] HTTP request
+GET /login.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [48] Common sensitive file
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     4206624641
+[~] Severity:   Low
+
+[~] URL:        http://testphp.vulnweb.com/_mmServerScripts/MMHTTPDB.php
+[~] Element:    server
+
+[~] Tags: common, path, file, discovery
+
+[~] Description: 
+[~] 
+Web applications are often made up of multiple files and directories.
+
+It is possible that over time some files may become unreferenced (unused)
+by the web application and forgotten about by the administrator/developer.
+Because web applications are built using common frameworks, they contain common
+files that can be discovered (independent of server).
+
+During the initial recon stages of an attack, cyber-criminals will attempt to
+locate unreferenced files in the hope that the file will assist in further
+compromise of the web application.
+To achieve this they will make thousands of requests using word lists containing
+common filenames.
+The response headers from the server will then indicate if the file exists.
+
+Arachni also contains a list of common file names which it will attempt to access.
+
+[~] References:
+[~]   Apache.org - http://httpd.apache.org/docs/2.0/mod/mod_access.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Untrusted):
+[~] Proof:     "HTTP/1.1 200 OK"
+
+[~] Referring page: http://testphp.vulnweb.com/
+
+[~] Affected page:  http://testphp.vulnweb.com/_mmServerScripts/MMHTTPDB.php
+[~] HTTP request
+GET /_mmServerScripts/MMHTTPDB.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Remarks
+[~] -------
+[~]   By meta_analysis:
+[~]     *  This issue was logged by a discovery check but the response for the resource it
+identified is very similar to responses for other resources of similar type.
+This is a strong indication that the logged issue is a false positive.
+
+
+[+] [49] Common sensitive file
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     65271470
+[~] Severity:   Low
+
+[~] URL:        http://testphp.vulnweb.com/CVS/Root
+[~] Element:    server
+
+[~] Tags: common, path, file, discovery
+
+[~] Description: 
+[~] 
+Web applications are often made up of multiple files and directories.
+
+It is possible that over time some files may become unreferenced (unused)
+by the web application and forgotten about by the administrator/developer.
+Because web applications are built using common frameworks, they contain common
+files that can be discovered (independent of server).
+
+During the initial recon stages of an attack, cyber-criminals will attempt to
+locate unreferenced files in the hope that the file will assist in further
+compromise of the web application.
+To achieve this they will make thousands of requests using word lists containing
+common filenames.
+The response headers from the server will then indicate if the file exists.
+
+Arachni also contains a list of common file names which it will attempt to access.
+
+[~] References:
+[~]   Apache.org - http://httpd.apache.org/docs/2.0/mod/mod_access.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "HTTP/1.1 200 OK"
+
+[~] Referring page: http://testphp.vulnweb.com/
+
+[~] Affected page:  http://testphp.vulnweb.com/CVS/Root
+[~] HTTP request
+GET /CVS/Root HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [50] Common sensitive file
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2596051939
+[~] Severity:   Low
+
+[~] URL:        http://testphp.vulnweb.com/CVS/Entries
+[~] Element:    server
+
+[~] Tags: common, path, file, discovery
+
+[~] Description: 
+[~] 
+Web applications are often made up of multiple files and directories.
+
+It is possible that over time some files may become unreferenced (unused)
+by the web application and forgotten about by the administrator/developer.
+Because web applications are built using common frameworks, they contain common
+files that can be discovered (independent of server).
+
+During the initial recon stages of an attack, cyber-criminals will attempt to
+locate unreferenced files in the hope that the file will assist in further
+compromise of the web application.
+To achieve this they will make thousands of requests using word lists containing
+common filenames.
+The response headers from the server will then indicate if the file exists.
+
+Arachni also contains a list of common file names which it will attempt to access.
+
+[~] References:
+[~]   Apache.org - http://httpd.apache.org/docs/2.0/mod/mod_access.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "HTTP/1.1 200 OK"
+
+[~] Referring page: http://testphp.vulnweb.com/
+
+[~] Affected page:  http://testphp.vulnweb.com/CVS/Entries
+[~] HTTP request
+GET /CVS/Entries HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [51] Common sensitive file
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1288848907
+[~] Severity:   Low
+
+[~] URL:        http://testphp.vulnweb.com/CVS/Repository
+[~] Element:    server
+
+[~] Tags: common, path, file, discovery
+
+[~] Description: 
+[~] 
+Web applications are often made up of multiple files and directories.
+
+It is possible that over time some files may become unreferenced (unused)
+by the web application and forgotten about by the administrator/developer.
+Because web applications are built using common frameworks, they contain common
+files that can be discovered (independent of server).
+
+During the initial recon stages of an attack, cyber-criminals will attempt to
+locate unreferenced files in the hope that the file will assist in further
+compromise of the web application.
+To achieve this they will make thousands of requests using word lists containing
+common filenames.
+The response headers from the server will then indicate if the file exists.
+
+Arachni also contains a list of common file names which it will attempt to access.
+
+[~] References:
+[~]   Apache.org - http://httpd.apache.org/docs/2.0/mod/mod_access.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "HTTP/1.1 200 OK"
+
+[~] Referring page: http://testphp.vulnweb.com/
+
+[~] Affected page:  http://testphp.vulnweb.com/CVS/Repository
+[~] HTTP request
+GET /CVS/Repository HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [52] Insecure cross-domain policy (allow-access-from)
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     63395246
+[~] Severity:   Low
+
+[~] URL:        http://testphp.vulnweb.com/crossdomain.xml
+[~] Element:    server
+
+[~] Tags: 
+
+[~] Description: 
+[~] 
+The browser security model normally prevents web content from one domain from
+accessing data from another domain. This is commonly known as the "same origin policy".
+
+URL policy files grant cross-domain permissions for reading data. They permit
+operations that are not permitted by default. The URL policy file for Silverlight
+is located, by default, in the root directory of the target server, with the name
+`crossdomain.xml` (for example, at `www.example.com/crossdomain.xml`).
+
+When a domain is specified in `crossdomain.xml`, the site declares that it
+is willing to allow the operators of any servers in that domain to obtain any
+document on the server where the policy file resides.
+
+The `crossdomain.xml` file deployed on this website opens the server to all
+domains (use of a single asterisk "*" as a pure wildcard is supported).
+
+
+[~] http://cwe.mitre.org/data/definitions/16.html
+[~] References:
+[~]   OWASP - https://www.owasp.org/index.php/Test_Cross_Origin_Resource_Sharing_%28OTG-CLIENT-007%29
+[~]   Adobe - http://blogs.adobe.com/stateofsecurity/2007/07/crossdomain_policy_files_1.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "<allow-access-from domain=\"*\" to-ports=\"*\" secure=\"false\"/>"
+
+[~] Referring page: http://testphp.vulnweb.com/
+
+[~] Affected page:  http://testphp.vulnweb.com/crossdomain.xml
+[~] HTTP request
+GET /crossdomain.xml HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [53] Missing 'X-Frame-Options' header
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     4294553598
+[~] Severity:   Low
+
+[~] URL:        http://testphp.vulnweb.com/
+[~] Element:    server
+
+[~] Tags: 
+
+[~] Description: 
+[~] 
+Clickjacking (User Interface redress attack, UI redress attack, UI redressing)
+is a malicious technique of tricking a Web user into clicking on something different
+from what the user perceives they are clicking on, thus potentially revealing
+confidential information or taking control of their computer while clicking on
+seemingly innocuous web pages.
+
+The server didn't return an `X-Frame-Options` header which means that this website
+could be at risk of a clickjacking attack.
+
+The `X-Frame-Options` HTTP response header can be used to indicate whether or not
+a browser should be allowed to render a page inside a frame or iframe. Sites can
+use this to avoid clickjacking attacks, by ensuring that their content is not
+embedded into other sites.
+
+
+[~] http://cwe.mitre.org/data/definitions/693.html
+[~] References:
+[~]   MDN - https://developer.mozilla.org/en-US/docs/Web/HTTP/X-Frame-Options
+[~]   RFC - http://tools.ietf.org/html/rfc7034
+[~]   OWASP - https://www.owasp.org/index.php/Clickjacking
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "HTTP/1.1 200 OK\r\nServer: nginx/1.4.1\r\nDate: Fri, 23 Dec 2016 06:39:01 GMT\r\nContent-Type: text/html\r\nTransfer-Encoding: chunked\r\nConnection: keep-alive\r\nX-Powered-By: PHP/5.3.10-1~lucid+2uwsgi2\r\nContent-Encoding: gzip\r\n\r\n"
+
+[~] Referring page: http://testphp.vulnweb.com/
+
+[~] Affected page:  http://testphp.vulnweb.com/
+[~] HTTP request
+GET / HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [54] Interesting response
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2045093177
+[~] Severity:   Informational
+
+[~] URL:        http://testphp.vulnweb.com/login.php
+[~] Element:    server
+
+[~] Tags: interesting, response, server
+
+[~] Description: 
+[~] 
+The server responded with a non 200 (OK) nor 404 (Not Found) status code.
+This is a non-issue, however exotic HTTP response status codes can provide useful
+insights into the behavior of the web application and assist with the penetration test.
+
+[~] References:
+[~]   w3.org - http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "HTTP/1.1 302 Found"
+
+[~] Referring page: http://testphp.vulnweb.com/
+
+[~] Affected page:  http://testphp.vulnweb.com/login.php
+[~] HTTP request
+GET /login.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+uname=arachni_name&pass=%2F..%2F..%2F..%2F..%2F..%2F..%2F%2Fproc%2Fself%2Fenviron%00.
+
+[+] [55] HTML object
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2606511282
+[~] Severity:   Informational
+
+[~] URL:        http://testphp.vulnweb.com/login.php
+[~] Element:    body
+
+[~] Tags: 
+
+[~] Description: 
+[~] Logs the existence of HTML object tags.
+                Since Arachni can't execute things like Java Applets and Flash
+                this serves as a heads-up to the penetration tester to review
+                the objects in question using a different method.
+
+[~] http://cwe.mitre.org/data/definitions/200.html
+[~] References:
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/login.php
+
+[~] Affected page:  http://testphp.vulnweb.com/login.php
+[~] HTTP request
+GET /login.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [56] Interesting response
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1672811899
+[~] Severity:   Informational
+
+[~] URL:        http://testphp.vulnweb.com/userinfo.php
+[~] Element:    server
+
+[~] Tags: interesting, response, server
+
+[~] Description: 
+[~] 
+The server responded with a non 200 (OK) nor 404 (Not Found) status code.
+This is a non-issue, however exotic HTTP response status codes can provide useful
+insights into the behavior of the web application and assist with the penetration test.
+
+[~] References:
+[~]   w3.org - http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "HTTP/1.1 302 Found"
+
+[~] Referring page: http://testphp.vulnweb.com/
+
+[~] Affected page:  http://testphp.vulnweb.com/userinfo.php
+[~] HTTP request
+GET /userinfo.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [57] HTML object
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     509531240
+[~] Severity:   Informational
+
+[~] URL:        http://testphp.vulnweb.com/listproducts.php?cat=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50
+[~] Element:    body
+
+[~] Tags: 
+
+[~] Description: 
+[~] Logs the existence of HTML object tags.
+                Since Arachni can't execute things like Java Applets and Flash
+                this serves as a heads-up to the penetration tester to review
+                the objects in question using a different method.
+
+[~] http://cwe.mitre.org/data/definitions/200.html
+[~] References:
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/listproducts.php?cat=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50
+
+[~] Affected page:  http://testphp.vulnweb.com/listproducts.php?cat=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50
+[~] HTTP request
+GET /listproducts.php?cat=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Variation 2 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/listproducts.php?cat=1_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50
+
+[~] Affected page:  http://testphp.vulnweb.com/listproducts.php?cat=1_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50
+[~] HTTP request
+GET /listproducts.php?cat=1_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Variation 3 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/listproducts.php?cat=1
+
+[~] Affected page:  http://testphp.vulnweb.com/listproducts.php?cat=1
+[~] HTTP request
+GET /listproducts.php?cat=1 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [58] HTML object
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2151594629
+[~] Severity:   Informational
+
+[~] URL:        http://testphp.vulnweb.com/product.php?pic=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50
+[~] Element:    body
+
+[~] Tags: 
+
+[~] Description: 
+[~] Logs the existence of HTML object tags.
+                Since Arachni can't execute things like Java Applets and Flash
+                this serves as a heads-up to the penetration tester to review
+                the objects in question using a different method.
+
+[~] http://cwe.mitre.org/data/definitions/200.html
+[~] References:
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/product.php?pic=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50
+
+[~] Affected page:  http://testphp.vulnweb.com/product.php?pic=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50
+[~] HTTP request
+GET /product.php?pic=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Variation 2 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/product.php?pic=1
+
+[~] Affected page:  http://testphp.vulnweb.com/product.php?pic=1
+[~] HTTP request
+GET /product.php?pic=1 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Variation 3 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/product.php?pic=3
+
+[~] Affected page:  http://testphp.vulnweb.com/product.php?pic=3
+[~] HTTP request
+GET /product.php?pic=3 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Variation 4 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/product.php?pic=2
+
+[~] Affected page:  http://testphp.vulnweb.com/product.php?pic=2
+[~] HTTP request
+GET /product.php?pic=2 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Variation 5 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/product.php?pic=5
+
+[~] Affected page:  http://testphp.vulnweb.com/product.php?pic=5
+[~] HTTP request
+GET /product.php?pic=5 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Variation 6 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/product.php?pic=7
+
+[~] Affected page:  http://testphp.vulnweb.com/product.php?pic=7
+[~] HTTP request
+GET /product.php?pic=7 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Variation 7 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/product.php?pic=4
+
+[~] Affected page:  http://testphp.vulnweb.com/product.php?pic=4
+[~] HTTP request
+GET /product.php?pic=4 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [59] HTML object
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     430538996
+[~] Severity:   Informational
+
+[~] URL:        http://testphp.vulnweb.com/cart.php
+[~] Element:    body
+
+[~] Tags: 
+
+[~] Description: 
+[~] Logs the existence of HTML object tags.
+                Since Arachni can't execute things like Java Applets and Flash
+                this serves as a heads-up to the penetration tester to review
+                the objects in question using a different method.
+
+[~] http://cwe.mitre.org/data/definitions/200.html
+[~] References:
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/cart.php
+
+[~] Affected page:  http://testphp.vulnweb.com/cart.php
+[~] HTTP request
+GET /cart.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [60] HTML object
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2563382148
+[~] Severity:   Informational
+
+[~] URL:        http://testphp.vulnweb.com/guestbook.php
+[~] Element:    body
+
+[~] Tags: 
+
+[~] Description: 
+[~] Logs the existence of HTML object tags.
+                Since Arachni can't execute things like Java Applets and Flash
+                this serves as a heads-up to the penetration tester to review
+                the objects in question using a different method.
+
+[~] http://cwe.mitre.org/data/definitions/200.html
+[~] References:
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/guestbook.php
+
+[~] Affected page:  http://testphp.vulnweb.com/guestbook.php
+[~] HTTP request
+GET /guestbook.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [61] HTML object
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1465127283
+[~] Severity:   Informational
+
+[~] URL:        http://testphp.vulnweb.com/disclaimer.php
+[~] Element:    body
+
+[~] Tags: 
+
+[~] Description: 
+[~] Logs the existence of HTML object tags.
+                Since Arachni can't execute things like Java Applets and Flash
+                this serves as a heads-up to the penetration tester to review
+                the objects in question using a different method.
+
+[~] http://cwe.mitre.org/data/definitions/200.html
+[~] References:
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/disclaimer.php
+
+[~] Affected page:  http://testphp.vulnweb.com/disclaimer.php
+[~] HTTP request
+GET /disclaimer.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [62] HTML object
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2515907578
+[~] Severity:   Informational
+
+[~] URL:        http://testphp.vulnweb.com/artists.php
+[~] Element:    body
+
+[~] Tags: 
+
+[~] Description: 
+[~] Logs the existence of HTML object tags.
+                Since Arachni can't execute things like Java Applets and Flash
+                this serves as a heads-up to the penetration tester to review
+                the objects in question using a different method.
+
+[~] http://cwe.mitre.org/data/definitions/200.html
+[~] References:
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/artists.php
+
+[~] Affected page:  http://testphp.vulnweb.com/artists.php
+[~] HTTP request
+GET /artists.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Variation 2 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/artists.php?artist=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50
+
+[~] Affected page:  http://testphp.vulnweb.com/artists.php?artist=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50
+[~] HTTP request
+GET /artists.php?artist=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Variation 3 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/artists.php?artist=1
+
+[~] Affected page:  http://testphp.vulnweb.com/artists.php?artist=1
+[~] HTTP request
+GET /artists.php?artist=1 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Variation 4 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/artists.php?artist=2
+
+[~] Affected page:  http://testphp.vulnweb.com/artists.php?artist=2
+[~] HTTP request
+GET /artists.php?artist=2 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [63] HTML object
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     745229225
+[~] Severity:   Informational
+
+[~] URL:        http://testphp.vulnweb.com/categories.php
+[~] Element:    body
+
+[~] Tags: 
+
+[~] Description: 
+[~] Logs the existence of HTML object tags.
+                Since Arachni can't execute things like Java Applets and Flash
+                this serves as a heads-up to the penetration tester to review
+                the objects in question using a different method.
+
+[~] http://cwe.mitre.org/data/definitions/200.html
+[~] References:
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/categories.php
+
+[~] Affected page:  http://testphp.vulnweb.com/categories.php
+[~] HTTP request
+GET /categories.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [64] HTML object
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     3035351463
+[~] Severity:   Informational
+
+[~] URL:        http://testphp.vulnweb.com/index.php
+[~] Element:    body
+
+[~] Tags: 
+
+[~] Description: 
+[~] Logs the existence of HTML object tags.
+                Since Arachni can't execute things like Java Applets and Flash
+                this serves as a heads-up to the penetration tester to review
+                the objects in question using a different method.
+
+[~] http://cwe.mitre.org/data/definitions/200.html
+[~] References:
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/index.php
+
+[~] Affected page:  http://testphp.vulnweb.com/index.php
+[~] HTTP request
+GET /index.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [65] HTML object
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     4142760548
+[~] Severity:   Informational
+
+[~] URL:        http://testphp.vulnweb.com/Templates/main_dynamic_template.dwt.php
+[~] Element:    body
+
+[~] Tags: 
+
+[~] Description: 
+[~] Logs the existence of HTML object tags.
+                Since Arachni can't execute things like Java Applets and Flash
+                this serves as a heads-up to the penetration tester to review
+                the objects in question using a different method.
+
+[~] http://cwe.mitre.org/data/definitions/200.html
+[~] References:
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"../Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"../Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/Templates/main_dynamic_template.dwt.php
+
+[~] Affected page:  http://testphp.vulnweb.com/Templates/main_dynamic_template.dwt.php
+[~] HTTP request
+GET /Templates/main_dynamic_template.dwt.php HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [66] HTML object
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     2535402842
+[~] Severity:   Informational
+
+[~] URL:        http://testphp.vulnweb.com/search.php?test=query
+[~] Element:    body
+
+[~] Tags: 
+
+[~] Description: 
+[~] Logs the existence of HTML object tags.
+                Since Arachni can't execute things like Java Applets and Flash
+                this serves as a heads-up to the penetration tester to review
+                the objects in question using a different method.
+
+[~] http://cwe.mitre.org/data/definitions/200.html
+[~] References:
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/search.php?test=query
+
+[~] Affected page:  http://testphp.vulnweb.com/search.php?test=query
+[~] HTTP request
+POST /search.php?test=query HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Content-Length: 22
+Content-Type: application/x-www-form-urlencoded
+
+searchFor=&goButton=go
+
+[~] Variation 2 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/search.php?test=query
+
+[~] Affected page:  http://testphp.vulnweb.com/search.php?test=query
+[~] HTTP request
+GET /search.php?test=query HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[~] Variation 3 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/search.php?test=query_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50
+
+[~] Affected page:  http://testphp.vulnweb.com/search.php?test=query_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50
+[~] HTTP request
+GET /search.php?test=query_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50 HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [67] Interesting response
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1211883900
+[~] Severity:   Informational
+
+[~] URL:        http://testphp.vulnweb.com/cgi-bin/
+[~] Element:    server
+
+[~] Tags: interesting, response, server
+
+[~] Description: 
+[~] 
+The server responded with a non 200 (OK) nor 404 (Not Found) status code.
+This is a non-issue, however exotic HTTP response status codes can provide useful
+insights into the behavior of the web application and assist with the penetration test.
+
+[~] References:
+[~]   w3.org - http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "HTTP/1.1 403 Forbidden"
+
+[~] Referring page: http://testphp.vulnweb.com/
+
+[~] Affected page:  http://testphp.vulnweb.com/cgi-bin/
+[~] HTTP request
+GET /cgi-bin/ HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [68] Interesting response
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1765845481
+[~] Severity:   Informational
+
+[~] URL:        http://testphp.vulnweb.com/admin
+[~] Element:    server
+
+[~] Tags: interesting, response, server
+
+[~] Description: 
+[~] 
+The server responded with a non 200 (OK) nor 404 (Not Found) status code.
+This is a non-issue, however exotic HTTP response status codes can provide useful
+insights into the behavior of the web application and assist with the penetration test.
+
+[~] References:
+[~]   w3.org - http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "HTTP/1.1 301 Moved Permanently"
+
+[~] Referring page: http://testphp.vulnweb.com/
+
+[~] Affected page:  http://testphp.vulnweb.com/admin
+[~] HTTP request
+GET /admin HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [69] Interesting response
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1372785426
+[~] Severity:   Informational
+
+[~] URL:        http://testphp.vulnweb.com/
+[~] Element:    server
+
+[~] Tags: interesting, response, server
+
+[~] Description: 
+[~] 
+The server responded with a non 200 (OK) nor 404 (Not Found) status code.
+This is a non-issue, however exotic HTTP response status codes can provide useful
+insights into the behavior of the web application and assist with the penetration test.
+
+[~] References:
+[~]   w3.org - http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Proof:     "HTTP/1.1 405 Not Allowed"
+
+[~] Referring page: http://testphp.vulnweb.com/
+
+[~] Affected page:  http://testphp.vulnweb.com/
+[~] HTTP request
+OPTIONS / HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [70] HTML object
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     3994717802
+[~] Severity:   Informational
+
+[~] URL:        http://testphp.vulnweb.com/
+[~] Element:    body
+
+[~] Tags: 
+
+[~] Description: 
+[~] Logs the existence of HTML object tags.
+                Since Arachni can't execute things like Java Applets and Flash
+                this serves as a heads-up to the penetration tester to review
+                the objects in question using a different method.
+
+[~] http://cwe.mitre.org/data/definitions/200.html
+[~] References:
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Signature: <object(?:.*?)>(?:.*?)</object>
+[~] Proof:     "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0\" width=\"107\" height=\"66\">\r\n        <param name=\"movie\" value=\"Flash/add.swf\">\r\n        <param name=quality value=high>\r\n        <embed src=\"Flash/add.swf\" quality=high pluginspage=\"http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" width=\"107\" height=\"66\"></embed>\r\n      </object>"
+
+[~] Referring page: http://testphp.vulnweb.com/
+
+[~] Affected page:  http://testphp.vulnweb.com/
+[~] HTTP request
+GET / HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+[+] [71] E-mail address disclosure
+[~] ~~~~~~~~~~~~~~~~~~~~
+[~] Digest:     1789280593
+[~] Severity:   Informational
+
+[~] URL:        http://testphp.vulnweb.com/
+[~] Element:    body
+
+[~] Tags: 
+
+[~] Description: 
+[~] 
+Email addresses are typically found on "Contact us" pages, however, they can also
+be found within scripts or code comments of the application. They are used to
+provide a legitimate means of contacting an organisation.
+
+As one of the initial steps in information gathering, cyber-criminals will spider
+a website and using automated methods collect as many email addresses as possible,
+that they may then use in a social engineering attack.
+
+Using the same automated methods, Arachni was able to detect one or more email
+addresses that were stored within the affected page.
+
+
+[~] http://cwe.mitre.org/data/definitions/200.html
+[~] References:
+
+[*] Variations
+[~] ----------
+
+[~] Variation 1 (Trusted):
+[~] Signature: [A-Z0-9._%+-]+(?:@|\s*\[at\]\s*)[A-Z0-9.-]+(?:\.|\s*\[dot\]\s*)[A-Z]{2,4}
+[~] Proof:     "wvs@acunetix.com"
+
+[~] Referring page: http://testphp.vulnweb.com/
+
+[~] Affected page:  http://testphp.vulnweb.com/
+[~] HTTP request
+GET / HTTP/1.1
+Host: testphp.vulnweb.com
+Accept-Encoding: gzip, deflate
+User-Agent: Arachni/v1.2.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+
+
+
+[+] Plugin data:
+[~] ---------------
+
+
+[*] Health map
+[~] ~~~~~~~~~~~~~~
+[~] Description: Generates a simple list of safe/unsafe URLs.
+
+[~] Legend:
+[+] No issues
+[-] Has issues
+
+[-] http://testphp.vulnweb.com/
+[+] http://testphp.vulnweb.com/AJAX/index.php
+[+] http://testphp.vulnweb.com/AJAX/styles.css
+[-] http://testphp.vulnweb.com/CVS/Entries
+[-] http://testphp.vulnweb.com/CVS/Repository
+[-] http://testphp.vulnweb.com/CVS/Root
+[+] http://testphp.vulnweb.com/Mod_Rewrite_Shop/
+[+] http://testphp.vulnweb.com/Mod_Rewrite_Shop/Details/color-printer/3/
+[+] http://testphp.vulnweb.com/Mod_Rewrite_Shop/Details/network-attached-storage-dlink/1/
+[+] http://testphp.vulnweb.com/Mod_Rewrite_Shop/Details/web-camera-a4tech/2/
+[-] http://testphp.vulnweb.com/Templates/main_dynamic_template.dwt.php
+[-] http://testphp.vulnweb.com/_mmServerScripts/MMHTTPDB.php
+[-] http://testphp.vulnweb.com/admin
+[-] http://testphp.vulnweb.com/artists.php
+[-] http://testphp.vulnweb.com/cart.php
+[-] http://testphp.vulnweb.com/categories.php
+[-] http://testphp.vulnweb.com/cgi-bin/
+[-] http://testphp.vulnweb.com/crossdomain.xml
+[-] http://testphp.vulnweb.com/disclaimer.php
+[-] http://testphp.vulnweb.com/guestbook.php
+[-] http://testphp.vulnweb.com/hpp/
+[-] http://testphp.vulnweb.com/hpp/params.php
+[-] http://testphp.vulnweb.com/index.bak
+[-] http://testphp.vulnweb.com/index.php
+[-] http://testphp.vulnweb.com/index.zip
+[-] http://testphp.vulnweb.com/listproducts.php
+[-] http://testphp.vulnweb.com/listproducts.php?cat=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50
+[-] http://testphp.vulnweb.com/login.php
+[+] http://testphp.vulnweb.com/privacy.php
+[-] http://testphp.vulnweb.com/product.php
+[-] http://testphp.vulnweb.com/product.php?pic=_arachni_trainer_fe8d5c923a576608afabe9c4c09a7f50
+[-] http://testphp.vulnweb.com/search.php
+[-] http://testphp.vulnweb.com/search.php?test=query
+[-] http://testphp.vulnweb.com/secured/
+[-] http://testphp.vulnweb.com/secured/newuser.php
+[-] http://testphp.vulnweb.com/secured/phpinfo.php
+[+] http://testphp.vulnweb.com/secured/style.css
+[-] http://testphp.vulnweb.com/showimage.php
+[+] http://testphp.vulnweb.com/signup.php
+[+] http://testphp.vulnweb.com/style.css
+[-] http://testphp.vulnweb.com/userinfo.php
+
+[~] Total: 41
+[+] Without issues: 10
+[-] With issues: 31 ( 76% )
+
+[*] Uniformity (Lack of central sanitization)
+[~] ~~~~~~~~~~~~~~
+[~] Description: 
+Analyzes the scan results and logs issues which persist across different pages.
+
+This is usually a sign for a lack of a central/single point of input sanitization,
+a bad coding practise.
+
+
+[~] Relevant issues:
+[~] --------------------
+[+] Blind SQL Injection (timing attack) in form input 'uuname' using POST at the following pages:
+[~]   * http://testphp.vulnweb.com/secured/newuser.php
+[~]   * http://testphp.vulnweb.com/userinfo.php
+[~]   * http://testphp.vulnweb.com/userinfo.php
+[~]   * http://testphp.vulnweb.com/search.php?test=query
+
+[+] Cross-Site Scripting (XSS) in form input 'ucc' using POST at the following pages:
+[~]   * http://testphp.vulnweb.com/secured/newuser.php
+[~]   * http://testphp.vulnweb.com/secured/newuser.php
+[~]   * http://testphp.vulnweb.com/secured/newuser.php
+[~]   * http://testphp.vulnweb.com/secured/newuser.php
+[~]   * http://testphp.vulnweb.com/secured/newuser.php
+[~]   * http://testphp.vulnweb.com/secured/newuser.php
+[~]   * http://testphp.vulnweb.com/secured/newuser.php
+[~]   * http://testphp.vulnweb.com/search.php?test=query
+
+[+] Blind NoSQL Injection (differential analysis) in link input 'p' using GET at the following pages:
+[~]   * http://testphp.vulnweb.com/hpp/params.php
+[~]   * http://testphp.vulnweb.com/hpp/params.php
+
+[+] Blind SQL Injection (differential analysis) in link input 'p' using GET at the following pages:
+[~]   * http://testphp.vulnweb.com/hpp/params.php
+[~]   * http://testphp.vulnweb.com/hpp/params.php
+
+[+] Cross-Site Scripting (XSS) in link input 'pp' using GET at the following pages:
+[~]   * http://testphp.vulnweb.com/hpp/params.php
+[~]   * http://testphp.vulnweb.com/hpp/params.php
+[~]   * http://testphp.vulnweb.com/listproducts.php
+[~]   * http://testphp.vulnweb.com/listproducts.php
+[~]   * http://testphp.vulnweb.com/showimage.php
+
+[+] Code injection (timing attack) in link input 'artist' using GET at the following pages:
+[~]   * http://testphp.vulnweb.com/listproducts.php
+[~]   * http://testphp.vulnweb.com/listproducts.php
+[~]   * http://testphp.vulnweb.com/artists.php
+[~]   * http://testphp.vulnweb.com/product.php
+
+[+] Blind SQL Injection (timing attack) in link input 'artist' using GET at the following pages:
+[~]   * http://testphp.vulnweb.com/listproducts.php
+[~]   * http://testphp.vulnweb.com/listproducts.php
+[~]   * http://testphp.vulnweb.com/artists.php
+[~]   * http://testphp.vulnweb.com/product.php
+
+[+] SQL Injection in link input 'artist' using GET at the following pages:
+[~]   * http://testphp.vulnweb.com/listproducts.php
+[~]   * http://testphp.vulnweb.com/listproducts.php
+[~]   * http://testphp.vulnweb.com/search.php
+[~]   * http://testphp.vulnweb.com/product.php
+[~]   * http://testphp.vulnweb.com/artists.php
+
+[+] Unencrypted password form in form input 'upass' using POST at the following pages:
+[~]   * http://testphp.vulnweb.com/secured/newuser.php
+[~]   * http://testphp.vulnweb.com/userinfo.php
+
